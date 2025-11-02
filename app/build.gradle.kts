@@ -1,8 +1,10 @@
 plugins {
-    id("genesis.android.application") // This likely applies the base configurations already
+    id("com.android.application") version "9.0.0-alpha13" // This likely applies the base configurations already
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("com.google.dagger.hilt.android") version "2.57.2"
+    alias(libs.plugins.serialization)
+    id("com.google.gms.google-services") version "4.4.4"
 }
 
 

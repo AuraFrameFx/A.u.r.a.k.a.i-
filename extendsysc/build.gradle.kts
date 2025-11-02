@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
-
+    id("com.android.library") version "9.0.0-alpha13" // This likely applies the base configurations already
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
+    id("com.google.devtools.ksp") version "2.3.0"
+    id("com.google.dagger.hilt.android") version "2.57.2"
+    alias(libs.plugins.serialization)
 }
 android {
     namespace = "dev.aurakai.auraframefx.extendsysc"
@@ -38,9 +39,9 @@ android {
         implementation(libs.coroutines)
         implementation(libs.retrofit)
         implementation(libs.okhttp)
-        implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
-        implementation("com.squareup.retrofit2:converter-kotlinx-serialization:1.0.0")
-        implementation("com.squareup.okhttp3:logging-interceptor:${libs.versions.okhttp.get()}")
+        implementation(libs.retrofit.converter.moshi)
+        implementation(libs.converter.kotlinx.serialization)
+        implementation(libs.okhttp.logging.interceptor)
         implementation(libs.androidx.work.runtime.ktx)
         implementation(libs.androidx.security.crypto)
         implementation(libs.androidx.hilt.navigation)

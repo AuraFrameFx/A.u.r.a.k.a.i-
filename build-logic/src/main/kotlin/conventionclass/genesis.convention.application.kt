@@ -10,7 +10,7 @@ import org.gradle.api.Project
 class GenesisApplicationConvention : Plugin<Project> {
     override fun apply(target: Project) {
         with(target.plugins) {
-            apply("genesis.android.application")
+            apply("com.android.application")
             // Apply any application-specific conventions here
         }
     }

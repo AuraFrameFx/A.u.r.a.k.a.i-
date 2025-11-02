@@ -1,9 +1,9 @@
 plugins {
-    id("genesis.android.application")
-    id("com.google.devtools.ksp") version "2.3.0"
+    id("com.android.library") version "9.0.0-alpha13" // This likely applies the base configurations already
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
-
+    id("com.google.devtools.ksp") version "2.3.0"
+    id("com.google.dagger.hilt.android") version "2.57.2"
+    alias(libs.plugins.serialization)
 }
 android {
     namespace = "dev.aurakai.auraframefx.colorblendr"

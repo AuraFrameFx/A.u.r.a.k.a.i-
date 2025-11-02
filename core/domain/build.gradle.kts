@@ -1,10 +1,11 @@
 plugins {
-    id("genesis.android.application")
+    id("com.android.library") version "9.0.0-alpha13" // This likely applies the base configurations already
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    id("com.google.devtools.ksp") version "2.3.0"
+    id("com.google.dagger.hilt.android") version "2.57.2"
+    alias(libs.plugins.serialization)
 }
+
 android {
     namespace = "dev.aurakai.auraframefx.core.domain"
     compileSdk = 36

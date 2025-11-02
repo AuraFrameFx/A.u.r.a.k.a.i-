@@ -15,6 +15,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
             apply("genesis.android.base")
             apply("com.android.library")
             apply("com.google.dagger.hilt.android")
+
             apply("com.google.devtools.ksp")
             apply("org.jetbrains.kotlin.plugin.compose")
         }

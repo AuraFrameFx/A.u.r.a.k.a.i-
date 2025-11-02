@@ -10,7 +10,7 @@ import org.gradle.api.Project
 class GenesisLibraryConvention : Plugin<Project> {
     override fun apply(target: Project) {
         with(target.plugins) {
-            apply("genesis.android.library")
+            apply("com.android.library")
             // Apply any library-specific conventions here
         }
     }

@@ -6,9 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx.benchmark"
-    compileSdk = 36
-}
+    android {
+        namespace = "dev.aurakai.auraframefx.sandbox.ui"
+        compileSdk = 36
+        defaultConfig {
+            minSdk = 34
 
 
 dependencies {

@@ -10,7 +10,7 @@ import org.gradle.api.Project
 class GenesisAndroidBasePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target.plugins) {
-            apply("genesis.android.base")
+            apply("com.android.base")
             // Apply any library-specific conventions here
         }
     }

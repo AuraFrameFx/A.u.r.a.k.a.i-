@@ -1,6 +1,8 @@
 [versions]
 # Build Tools
 agp = "9.0.0-alpha13"
+ndkVersion = "29.0.14206865"
+
 comGoogleGmsGoogleServicesGradlePlugin = "4.4.4"
 converterKotlinxSerialization = "3.0.0"
 gradle = "9.2.0"
@@ -113,7 +115,6 @@ compose-theme-adapterx = { group = "com.google.android.material", name = "compos
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 retrofit-converter-kotlinx-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version = "1.0.0" }
-
 # Missing Kotlin
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
@@ -247,12 +248,11 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
 # Kotlin
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+kotlin-android = { id = "org.jetbrains.kotlin", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+# KSP
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Hilt
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
-# KSP
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+

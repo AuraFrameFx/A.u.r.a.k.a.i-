@@ -16,9 +16,8 @@ class GenesisAndroidBasePlugin : Plugin<Project> {
         fun apply(target: Project) {
             with(target) {
                 with(target.pluginManager) {
+                    apply("org.jetbrains.kotlin.android")
                     apply("org.jetbrains.kotlin.jvm")
-                    apply("org.jetbrains.kotlin.plugin.parcelize")
-                    apply("org.jetbrains.kotlin.plugin.serialization")
                 }
             }
         }
