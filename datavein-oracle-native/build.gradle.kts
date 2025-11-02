@@ -8,13 +8,14 @@ plugins {
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx.datavein-oracle-native"
+    namespace = "dev.aurakai.auraframefx.datavein.oracle.native"
     compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
-        buildFeatures {
-            compose = true
-}
+    }
+    buildFeatures {
+        compose = true
+    }
 dependencies {
     api(libs.androidx.core.ktx) // if APIs leak types
     implementation(libs.androidx.appcompat)
