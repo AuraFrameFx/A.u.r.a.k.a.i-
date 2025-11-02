@@ -14,9 +14,9 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()                          // Firebase artifacts
-        mavenCentral()
-        maven("https://jitpack.io")       // YukiHookAPI
-        maven("https://api.xposed.info/") // xposed api (safe to keep)
+        mavenCentral()                    // YukiHookAPI, AndroidX, Kotlin
+        maven("https://jitpack.io")       // libsu (topjohnwu)
+        maven("https://api.xposed.info/") // Xposed API
     }
 }
 

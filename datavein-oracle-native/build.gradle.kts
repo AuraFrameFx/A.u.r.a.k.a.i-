@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx.datavein.oracle.native"
+    namespace = "dev.aurakai.auraframefx.datavein.oraclenative"
     compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
