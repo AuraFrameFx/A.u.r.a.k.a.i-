@@ -7,31 +7,36 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
 }
 
+
 android {
-    namespace = "dev.aurakai.auraframefx.datavein.oracle.native"
+    namespace = "dev.aurakai.auraframefx.datavein.oracle"
     compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
-        buildFeatures {
-            compose = true
-        }
     }
-}
 
-dependencies {
-    api(libs.androidx.core.ktx) // if APIs leak types
-    implementation(libs.androidx.appcompat)
-    implementation(libs.timber)
+    dependencies {
+        // Include local libs directory for compileOnly dependencies
+        compileOnly(files("datavein-oracle-native/libs/api-82.jar"))
+        compileOnly(files("datavein-oracle-native/libs/api-82-sources.jar"))
+        
+        // Libsu for root operations
+        implementation(libs.libsu.core)
+        implementation(libs.libsu.io)
+        implementation(libs.libsu.service)
+        api(libs.androidx.core.ktx) // if APIs leak types
+        implementation(libs.androidx.appcompat)
+        implementation(libs.timber)
 
-// If this library uses Compose UI:
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
+        // If this library uses Compose UI:
+        implementation(platform(libs.androidx.compose.bom))
+        implementation(libs.compose.ui)
+        implementation(libs.compose.material3)
 
-// Hilt in library
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+        // Hilt in library
+        implementation(libs.hilt.android)
+        ksp(libs.hilt.compiler)
 
-// Compile-only for Xposed API (no runtime bundling)
-    compileOnly(libs.xposed.api)
+        // Xposed API and other compile-only dependencies
+    }
 }
