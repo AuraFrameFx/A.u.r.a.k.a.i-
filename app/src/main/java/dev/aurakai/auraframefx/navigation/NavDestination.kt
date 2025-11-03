@@ -27,6 +27,9 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     object Canvas : NavDestination("canvas", "Canvas", Icons.Filled.Brush)
     object OracleDriveControl : NavDestination("oracle_drive_control", "Oracle Drive", Icons.Filled.Folder)
 
+    // Gate Navigation - Module Selection Hub
+    object Gates : NavDestination("gates", "Gates", null)
+
     companion object {
         val bottomNavItems = listOf(Home, AgentNexus, AiChat, Canvas, Settings)
         val gamificationScreens = listOf(AgentNexus, SphereGrid, FusionMode, Consciousness, Evolution)
