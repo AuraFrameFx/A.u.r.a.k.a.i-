@@ -9,6 +9,11 @@ plugins {
 android {
     namespace = "dev.aurakai.auraframefx.romtools"
     compileSdk = 36
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
+    }
 }
 dependencies {
     compileOnly(files("$projectDir/libs/api-82.jar"))
