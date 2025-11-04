@@ -43,6 +43,11 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Networking
+    implementation(libs.okhttp)
+    implementation("com.squareup.okhttp3:logging-interceptor:5.2.1")
+    implementation("com.google.code.gson:gson:2.11.0")
+
     // Kotlin coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
