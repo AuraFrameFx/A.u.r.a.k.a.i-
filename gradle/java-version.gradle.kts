@@ -12,18 +12,16 @@ allprojects {
     plugins.withType<JavaBasePlugin> {
         extensions.configure<JavaPluginExtension> {
             toolchain {
-                // Primary target: Java 24
+                // Primary toolchain: Java 25 (compiles to bytecode 24)
                 val targetVersion = 25
                 val fallbackVersion = 24
 
                 try {
-                    // Enforce Java 24
-                    languageVersion.set(JavaLanguageVersion.of(25))
-
-
+                    // Prefer Java 25 toolchain
+                    languageVersion.set(JavaLanguageVersion.of(targetVersion))
                     logger.lifecycle("🧠 GENESIS PROTOCOL: Using Java $targetVersion for ${project.name}")
                 } catch (e: Exception) {
-                    // Fallback to Java 25 if 24 is not available
+                    // Fallback to Java 24 if 25 is not available
                     languageVersion.set(JavaLanguageVersion.of(fallbackVersion))
                     logger.lifecycle("⚠️  GENESIS WARNING: Java $targetVersion not found, falling back to Java $fallbackVersion for ${project.name}")
                 }
@@ -37,8 +35,8 @@ allprojects {
     // Configure Java compilation for all modules
     plugins.withType<JavaPlugin> {
         tasks.withType<JavaCompile>().configureEach {
-            sourceCompatibility = "25"
-            targetCompatibility = "25"
+            sourceCompatibility = "24"
+            targetCompatibility = "24"
             options.encoding = "UTF-8"
             options.isIncremental = true
             options.isFork = true
@@ -70,7 +68,8 @@ allprojects {
         - Java Version: $jreVersion
         - Java Home: $jreHome
         - Active Java Toolchain: ${JavaVersion.current()}
-        - Target Java Version: 24 (with fallback to 25)
+        - Target Java Toolchain: 25 (with fallback to 24)
+        - Java Bytecode Target: 24 (sourceCompatibility/targetCompatibility)
         - Kotlin Compiler Target: 24
         - Project: ${project.name} (${project.path})
         ===================================================================""".trimIndent()

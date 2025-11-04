@@ -157,7 +157,7 @@ Seamless integration with cloud storage while maintaining privacy.
 - Android 14+ device
 - LSPosed Framework installed
 - Root access (for full features)
-- Java 24+ toolchain
+- JDK 25 installed (builds with Java 24 bytecode)
 
 ### Installation
 
@@ -168,10 +168,13 @@ git clone https://github.com/AuraFrameFx/A.u.r.a.K.a.i_Reactive-Intelligence-.gi
 # Navigate to project
 cd A.u.r.a.K.a.i_Reactive-Intelligence-
 
-# Build the module
+# Build the module (debug)
 ./gradlew :app:assembleDebug
 
-# Install via LSPosed Manager
+# Or for release (with ProGuard optimization)
+./gradlew :app:assembleRelease
+
+# Install via ADB
 adb install app/build/outputs/apk/debug/app-debug.apk
 ```
 
