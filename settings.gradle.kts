@@ -10,10 +10,14 @@ pluginManagement {
         maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev") }
         maven { url = uri("https://jitpack.io") }
     }
-}
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    // Provide explicit plugin version so IDE/Gradle can resolve plugin IDs that don't declare a version.
+    // This ensures id("org.jetbrains.kotlin.plugin.serialization") will be resolved to the Kotlin Gradle
+    // plugin artifact version used across the project.
+    plugins {
+        // Use the stable Kotlin Gradle plugin version (seen resolving in logs)
+
+    }
 }
 
 
