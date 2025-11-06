@@ -76,8 +76,6 @@ include(":romtools")
 // Add your other feature modules here...
 include(":oracle-drive-integration")
 include(":datavein-oracle-native")
-include(":feature-module")
-project(":feature-module").projectDir = File(rootDir, "featuremodule")
 // --- Core Modules ---
 include(":core:domain")
 include(":core:data")
