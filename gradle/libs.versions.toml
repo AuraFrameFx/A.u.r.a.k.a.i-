@@ -98,9 +98,9 @@ compose-bom = "2025.10.01"
 # ============================================================================
 # Firebase (Using BOM for version management)
 # ============================================================================
-# Firebase BOM - Latest: 34.1.0
+# Firebase BOM - Latest: 34.5.0
 # Note: KTX libraries removed from BOM v32.5.0+, use main modules
-firebaseBom = "34.1.0"
+firebaseBom = "34.5.0"
 
 # ============================================================================
 # Networking Libraries
@@ -147,8 +147,8 @@ guava = "33.5.0-android"
 # LeakCanary - Latest: 2.14
 leakcanary = "2.14"
 
-# Lottie Compose - Latest: 6.6.9
-lottie = "6.6.9"
+# Lottie Compose - Latest: 6.7.1
+lottie = "6.7.1"
 
 # Material Components - Latest stable: 1.13.0, Alpha: 1.14.0-alpha06
 material = "1.13.0"
