@@ -18,7 +18,7 @@ pluginManagement {
         // Use the stable Kotlin Gradle plugin version (seen resolving in logs)
 
     }
-}
+
 
 
 dependencyResolutionManagement {
