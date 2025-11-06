@@ -57,6 +57,7 @@ dependencies {
 }
 
 // Force a single annotations artifact to avoid duplicate-class errors
+// Updated to 26.0.2-1 to match project dependencies
 configurations.all {
     resolutionStrategy {
         force("org.jetbrains:annotations:26.0.2-1")
