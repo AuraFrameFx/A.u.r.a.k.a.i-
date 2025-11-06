@@ -12,7 +12,6 @@ java {
 
 dependencies {
     // Plugin dependencies for convention plugins
-    // These allow the convention plugins to apply Android, Kotlin, Hilt, KSP, and Firebase plugins
     // These allow the convention plugins to apply Android, Kotlin, Hilt, KSP, and Google Services plugins
     compileOnly(libs.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
@@ -54,9 +53,7 @@ gradlePlugin {
         }
     }
 }
-    // Plugin dependencies for convention plugins
-    // These allow the convention plugins to apply Android, Kotlin, Hilt, KSP, and Firebase plugins
-//
+
 // ═══════════════════════════════════════════════════════════════════════════
 // CORRECT USAGE EXAMPLES
 // ═══════════════════════════════════════════════════════════════════════════

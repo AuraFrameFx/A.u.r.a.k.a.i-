@@ -12,6 +12,9 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
 
 
 dependencyResolutionManagement {
@@ -90,6 +93,6 @@ include(":extendsysc")
 include(":extendsysd")
 include(":extendsyse")
 include(":extendsysf")
-includeBuild("build-logic")
+
 
 // Note: Do NOT include ':build-logic' here. It is handled by includeBuild.
