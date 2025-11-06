@@ -19,6 +19,18 @@ plugins {
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // VERSION CATALOG CONFIGURATION
+    // ═══════════════════════════════════════════════════════════════════════
+    // This is CRITICAL for libs.* references to work and for Android Studio
+    // to recognize the TOML file as a version catalog
+    versionCatalogs {
+        create("libs") {
+            from(files("gradle/libs.versions.toml"))
+        }
+    }
+
     repositories {
         google()
         mavenCentral()

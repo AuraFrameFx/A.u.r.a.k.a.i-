@@ -4,7 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 //
 // This is the root build file for the entire multi-module project.
-// Its ONLY purpose is to make plugins available on the classpath.
+// Its ONLY purpose is to define the root-level clean task.
 //
 // ALL configuration logic has been moved to convention plugins in build-logic/
 // This follows modern Gradle best practices for large multi-module projects.
@@ -20,12 +20,6 @@
 //   • genesis.kotlin.jvm          - Pure Kotlin JVM modules
 //
 // ═══════════════════════════════════════════════════════════════════════════
-
-plugins {
- id("genesis.android.application")
- id("genesis.android.library")
-
-}
 
 // Root-level clean task
 tasks.register("clean", Delete::class) {
