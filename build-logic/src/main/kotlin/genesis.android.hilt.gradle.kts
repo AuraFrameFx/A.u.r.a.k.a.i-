@@ -3,7 +3,8 @@
 
 plugins {
     // Hilt requires the Google Dagger Hilt plugin
-    alias(libs.plugins.hilt)
+    // Note: Use plugin ID directly in convention plugins, not alias()
+    id("com.google.dagger.hilt.android")
 }
 
 dependencies {

@@ -3,14 +3,16 @@
 // Composes with genesis.android.base for foundational configuration.
 
 plugins {
+    // Note: Use plugin IDs directly in convention plugins, not alias()
+
     // 1. Apply the official Android Library plugin
-    alias(libs.plugins.android.library)
+    id("com.android.library")
 
     // 2. Apply our foundational base conventions (Kotlin, SDK versions, etc.)
     id("genesis.android.base")
 
     // 3. Apply KSP, as it's a common requirement for many libraries (Hilt, Room, Moshi)
-    alias(libs.plugins.ksp)
+    id("com.google.devtools.ksp")
 }
 
 android {

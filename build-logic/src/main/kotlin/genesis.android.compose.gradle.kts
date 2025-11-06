@@ -5,7 +5,8 @@
 
 plugins {
     // Apply Compose Compiler plugin
-    alias(libs.plugins.compose.compiler)
+    // Note: Use plugin ID directly in convention plugins, not alias()
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {

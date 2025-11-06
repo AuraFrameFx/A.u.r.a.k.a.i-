@@ -5,8 +5,9 @@
 import com.android.build.api.dsl.CommonExtension
 
 plugins {
+    // Note: Use kotlin() DSL or plugin ID directly in convention plugins, not alias()
     // Kotlin Android is universal across all Android modules
-    alias(libs.plugins.kotlin.android)
+    kotlin("android")
 }
 
 // Configure the 'android' block for both app and library modules
