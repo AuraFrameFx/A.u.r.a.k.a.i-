@@ -6,6 +6,8 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        // Kotlin dev repository for beta/EAP releases
+        maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev") }
         maven { url = uri("https://jitpack.io") }
     }
 }
