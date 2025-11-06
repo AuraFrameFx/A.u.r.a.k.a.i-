@@ -17,13 +17,37 @@ dependencies {
     implementation(libs.ksp.gradle.plugin)
 }
 
-// Precompiled script plugins are automatically registered!
-// The following plugins are available:
-//   - genesis.android.application (from genesis.android.application.gradle.kts)
-//   - genesis.android.library (from genesis.android.library.gradle.kts)
-//   - genesis.android.hilt (from genesis.android.hilt.gradle.kts)
-//   - genesis.android.compose (from genesis.android.compose.gradle.kts)
-//   - genesis.android.room (from genesis.android.room.gradle.kts)
-//   - genesis.kotlin.jvm (from genesis.kotlin.jvm.gradle.kts)
+// ═══════════════════════════════════════════════════════════════════════════
+// Precompiled Script Plugins
+// ═══════════════════════════════════════════════════════════════════════════
 //
-// No manual registration needed - the file name becomes the plugin ID!
+// All convention plugins are now precompiled script plugins (.gradle.kts files).
+// They are automatically registered by Gradle - no manual registration needed!
+//
+// The file name becomes the plugin ID:
+//   genesis.android.application.gradle.kts → id("genesis.android.application")
+//
+// Available Plugins:
+//
+//   FOUNDATIONAL:
+//   • genesis.android.base        - Base Android configuration (SDK, Kotlin, deps)
+//
+//   APPLICATION & LIBRARY:
+//   • genesis.android.application - For the :app module (includes Hilt, Compose, Services)
+//   • genesis.android.library     - For Android library modules
+//   • genesis.kotlin.jvm          - For pure Kotlin JVM modules (no Android)
+//
+//   COMPOSABLE (mix and match):
+//   • genesis.android.hilt        - Hilt dependency injection
+//   • genesis.android.compose     - Jetpack Compose UI
+//   • genesis.android.room        - Room Database
+//   • genesis.android.yukihook    - YukiHook/Xposed framework
+//
+// Example Usage:
+//   plugins {
+//       id("genesis.android.library")  // Base library
+//       id("genesis.android.compose")  // Add Compose UI
+//       id("genesis.android.hilt")     // Add Hilt DI
+//   }
+//
+// ═══════════════════════════════════════════════════════════════════════════

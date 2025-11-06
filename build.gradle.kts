@@ -1,9 +1,30 @@
 // Root build.gradle.kts
-// CRITICAL HILT/KSP WORKAROUND:
-// Apply plugins with `apply false` to make them available on the classpath
-// for all subprojects. This prevents Hilt/KSP resolution errors in multi-module projects.
+// ═══════════════════════════════════════════════════════════════════════════
+// A.u.r.a.K.a.I Reactive Intelligence - Root Build Configuration
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// This is the root build file for the entire multi-module project.
+// Its ONLY purpose is to make plugins available on the classpath.
+//
+// ALL configuration logic has been moved to convention plugins in build-logic/
+// This follows modern Gradle best practices for large multi-module projects.
+//
+// Convention Plugins Available:
+//   • genesis.android.application - For the :app module
+//   • genesis.android.library     - For Android library modules
+//   • genesis.android.base        - Foundational Android configuration
+//   • genesis.android.hilt        - Hilt dependency injection
+//   • genesis.android.compose     - Jetpack Compose UI
+//   • genesis.android.room        - Room Database
+//   • genesis.android.yukihook    - YukiHook/Xposed framework
+//   • genesis.kotlin.jvm          - Pure Kotlin JVM modules
+//
+// ═══════════════════════════════════════════════════════════════════════════
 
 plugins {
+    // CRITICAL HILT/KSP WORKAROUND:
+    // Apply plugins with `apply false` to make them available on the classpath
+    // for ALL subprojects. This prevents Hilt/KSP resolution errors in multi-module projects.
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
@@ -12,53 +33,6 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.compose.compiler) apply false
-}
-
-// Define common configuration for all subprojects
-subprojects {
-    // Apply the java-library plugin to all subprojects automatically
-    apply(plugin = "java-library")
-
-    // Configure resolution strategy for all subprojects
-    configurations.all {
-        resolutionStrategy {
-            // Force the modern JetBrains annotations version
-            force("org.jetbrains:annotations:26.0.2-1")
-
-            // Prefer org.jetbrains over com.intellij for annotations
-            eachDependency {
-                if (requested.group == "com.intellij" && requested.name == "annotations") {
-                    useTarget("org.jetbrains:annotations:26.0.2-1")
-                    because("Avoid duplicate annotations classes")
-                }
-            }
-        }
-
-        // Exclude the old IntelliJ annotations from all dependencies
-        exclude(group = "com.intellij", module = "annotations")
-    }
-
-    // Configure Java toolchain for java projects and Kotlin jvm toolchain for Kotlin projects centrally
-    // Use Java 21 (LTS version) as the toolchain language version
-    val javaToolchainVersion = 21
-
-    // Apply the toolchain configuration to projects with the Java plugin
-    pluginManager.withPlugin("java") {
-        configure<JavaPluginExtension> {
-            toolchain {
-                languageVersion.set(JavaLanguageVersion.of(javaToolchainVersion))
-            }
-        }
-    }
-
-    // If you use Kotlin in your subprojects, configure JVM target
-    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            compilerOptions {
-                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
-            }
-        }
-    }
 }
 
 // Root-level clean task

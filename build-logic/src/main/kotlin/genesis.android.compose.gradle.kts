@@ -1,5 +1,7 @@
-// Precompiled script plugin for Jetpack Compose
-// Apply this to any library or app that contains Composables
+// genesis.android.compose.gradle.kts
+// Composable plugin for Jetpack Compose.
+// Apply this to any library module that contains Composables.
+// (The app module already includes Compose via genesis.android.application)
 
 plugins {
     // Apply Compose Compiler plugin
@@ -18,7 +20,7 @@ android {
     }
 }
 
-// Configure Kotlin compiler for Compose
+// Configure Kotlin compiler for Compose experimental APIs
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
         // Opt-in to Compose experimental APIs
