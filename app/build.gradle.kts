@@ -6,21 +6,12 @@
 // 2. com.google.dagger.hilt.android (Dependency Injection)
 // 3. com.google.devtools.ksp (Annotation Processing)
 // 4. org.jetbrains.kotlin.plugin.compose (Compose Compiler)
-// 5. org.jetbrains.kotlin.plugin.serialization (JSON serialization)
-// 6. com.google.gms.google-services (Firebase)
-// 7. genesis.android.base (SDK config, universal dependencies)
+// 5. genesis.android.base (SDK config, universal dependencies)
 //
-// NO NEED to declare plugins individually with version numbers anymore!
+// NO NEED to declare plugins individually - GenesisApplicationPlugin handles everything!
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
     id("genesis.android.application")
-    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin.get()
-    id("com.google.dagger.hilt.android") version libs.versions.hilt.get()
-    id("com.google.devtools.ksp") version libs.versions.ksp.get()
-    id("org.jetbrains.kotlin.plugin.compose") version libs.versions.kotlin.get()
-    id("com.google.gms.google-services") version libs.versions.googleServices.get()
-    id("genesis.android.base")
-
 }
 
 android {
