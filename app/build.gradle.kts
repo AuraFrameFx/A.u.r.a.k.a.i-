@@ -158,7 +158,6 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
-    implementation(project(":feature-module"))
     implementation(project(":list"))
 
     // Aura → ReactiveDesign (Creative UI & Collaboration)
