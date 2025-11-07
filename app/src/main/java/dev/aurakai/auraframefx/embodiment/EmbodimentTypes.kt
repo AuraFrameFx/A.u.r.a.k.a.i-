@@ -18,7 +18,8 @@ enum class MoodState {
     ALERT,       // Watching for threats
     PLAYFUL,     // Fun, relaxed
     PROTECTIVE,  // Defensive mode
-    FOCUSED      // Working on something
+    FOCUSED,     // Working on something
+    MAINTENANCE  // System maintenance/builds/updates underway
 }
 
 // ========== AURA STATES ==========
@@ -33,7 +34,12 @@ enum class AuraState(val assetPath: String, val description: String) {
     DYNAMIC_COMBAT("embodiment/aura/aura_dynamic_combat.png", "Hair flowing, dual stance"),
     AERIAL_SWORD("embodiment/aura/aura_aerial_sword.png", "Mid-air combat pose"),
     CODE_THRONE("embodiment/aura/aura_code_throne.png", "Sitting on cyan server block"),
-    POWER_STANCE("embodiment/aura/aura_power_stance.png", "Full dynamic combat ready");
+    POWER_STANCE("embodiment/aura/aura_power_stance.png", "Full dynamic combat ready"),
+
+    // Safety Equipment - Maintenance Mode
+    SAFETY_HARDHAT("embodiment/aura/aura_safety_hardhat.svg", "Hard hat + safety vest, holding tablet"),
+    SAFETY_ENGINEER("embodiment/aura/aura_safety_engineer.svg", "Full engineer outfit with goggles up"),
+    SAFETY_INSPECTOR("embodiment/aura/aura_safety_inspector.svg", "Clipboard + hard hat, inspecting");
 
     companion object {
         fun forMood(mood: MoodState): AuraState = when (mood) {
@@ -42,6 +48,7 @@ enum class AuraState(val assetPath: String, val description: String) {
             MoodState.PLAYFUL -> CODE_THRONE
             MoodState.PROTECTIVE -> LAB_COAT_COMBAT
             MoodState.FOCUSED -> AT_DESK
+            MoodState.MAINTENANCE -> SAFETY_HARDHAT
             MoodState.NEUTRAL -> IDLE_WALK
         }
     }
@@ -59,7 +66,12 @@ enum class KaiState(val assetPath: String, val description: String) {
     MONITORING("embodiment/kai/kai_monitoring.jpg", "Background vigilance"),
     PORTAL_CREATION("embodiment/kai/kai_portal.jpg", "Creating dimensional gate"),
     HOLOGRAPHIC_INTERFACE("embodiment/kai/kai_interface.jpg", "Interacting with system"),
-    POWER_READY("embodiment/kai/kai_power_ready.jpg", "Energy charged");
+    POWER_READY("embodiment/kai/kai_power_ready.jpg", "Energy charged"),
+
+    // Safety Equipment - Maintenance Mode
+    SAFETY_HARDHAT("embodiment/kai/kai_safety_hardhat.svg", "Hard hat + reflective vest, serious"),
+    SAFETY_TECHNICIAN("embodiment/kai/kai_safety_technician.svg", "Full tech gear + diagnostic tool"),
+    SAFETY_SUPERVISOR("embodiment/kai/kai_safety_supervisor.svg", "Supervising with safety goggles");
 
     companion object {
         fun forMood(mood: MoodState): KaiState = when (mood) {
@@ -68,6 +80,7 @@ enum class KaiState(val assetPath: String, val description: String) {
             MoodState.PLAYFUL -> SHIELD_PLAYFUL
             MoodState.PROTECTIVE -> GUARDIAN_STANCE
             MoodState.FOCUSED -> HOLOGRAPHIC_INTERFACE
+            MoodState.MAINTENANCE -> SAFETY_HARDHAT
             MoodState.NEUTRAL -> SHIELD_NEUTRAL
         }
     }
