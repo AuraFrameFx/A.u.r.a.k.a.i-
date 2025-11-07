@@ -88,7 +88,10 @@ data class IconOverlay3D(
 
     // Animation
     val floatOffset: Float = 0f, // Vertical floating animation offset
-    val pulseIntensity: Float = 1f
+    val pulseIntensity: Float = 1f,
+
+    // Pixel Art Asset (alternative to Iconify)
+    val pixelArtAsset: String? = null // Path to local SVG asset (e.g., "module_gates/collab_canvas_pixel.svg")
 )
 
 enum class BorderStyle {
@@ -213,6 +216,163 @@ object IconOverlayPresets {
 
         return overlays
     }
+
+    /**
+     * Pixel Art Module Gates - Digimon-style holographic portals
+     * Each gate shows pixel art representing the module's world
+     */
+    fun pixelArtModuleGates(): List<IconOverlay3D> = listOf(
+        // Collab Canvas - Top-left
+        IconOverlay3D(
+            id = "collab_canvas",
+            iconId = "mdi:pencil", // Fallback
+            label = "COLLAB CANVAS",
+            description = "Collaborative Design",
+            x = -0.65f,
+            y = -0.35f,
+            z = 0.3f,
+            rotationY = 15f,
+            glowColor = Color(0xFF667EEA), // Purple-blue
+            borderStyle = BorderStyle.HOLOGRAPHIC,
+            pixelArtAsset = "module_gates/collab_canvas_pixel.svg"
+        ),
+
+        // Artist Library - Top-right
+        IconOverlay3D(
+            id = "artist_library",
+            iconId = "mdi:cube",
+            label = "ARTIST LIBRARY",
+            description = "3D Models & Assets",
+            x = 0.65f,
+            y = -0.35f,
+            z = 0.2f,
+            rotationY = -15f,
+            glowColor = CyberpunkPurple,
+            borderStyle = BorderStyle.HOLOGRAPHIC,
+            pixelArtAsset = "module_gates/artist_library_pixel.svg"
+        ),
+
+        // Content - Bottom-left
+        IconOverlay3D(
+            id = "content",
+            iconId = "mdi:package-variant",
+            label = "CONTENT",
+            description = "Media Browser",
+            x = -0.65f,
+            y = 0.35f,
+            z = 0.25f,
+            rotationY = 15f,
+            glowColor = CyberpunkCyan,
+            borderStyle = BorderStyle.HOLOGRAPHIC,
+            pixelArtAsset = "module_gates/content_pixel.svg"
+        ),
+
+        // Cloud Sync - Bottom-right
+        IconOverlay3D(
+            id = "cloud_sync",
+            iconId = "mdi:cloud-upload",
+            label = "CLOUD SYNC",
+            description = "Bidirectional Sync",
+            x = 0.65f,
+            y = 0.35f,
+            z = 0.2f,
+            rotationY = -15f,
+            glowColor = CyberpunkPink,
+            borderStyle = BorderStyle.HOLOGRAPHIC,
+            pixelArtAsset = "module_gates/cloud_sync_pixel.svg"
+        ),
+
+        // ProtoCore - Left side
+        IconOverlay3D(
+            id = "protocore",
+            iconId = "mdi:chip",
+            label = "PROTOCORE",
+            description = "ROM Tools",
+            x = -0.85f,
+            y = 0f,
+            z = 0.4f,
+            rotationY = 20f,
+            glowColor = CyberpunkCyan,
+            borderStyle = BorderStyle.NEON_GLOW,
+            pixelArtAsset = "module_gates/protocore_pixel.svg"
+        ),
+
+        // Sphere Grid - Right side
+        IconOverlay3D(
+            id = "sphere_grid",
+            iconId = "mdi:grid",
+            label = "SPHERE GRID",
+            description = "Progression System",
+            x = 0.85f,
+            y = 0f,
+            z = 0.4f,
+            rotationY = -20f,
+            glowColor = Color(0xFF00F5FF),
+            borderStyle = BorderStyle.ANIMATED_GRADIENT,
+            pixelArtAsset = "module_gates/sphere_grid_pixel.svg"
+        ),
+
+        // UI Forge - Top center
+        IconOverlay3D(
+            id = "ui_forge",
+            iconId = "mdi:hammer",
+            label = "UI FORGE",
+            description = "Prompt-Driven Design",
+            x = 0f,
+            y = -0.6f,
+            z = 0.15f,
+            rotationY = 0f,
+            glowColor = Color(0xFFFF006E),
+            borderStyle = BorderStyle.HOLOGRAPHIC,
+            pixelArtAsset = "module_gates/ui_forge_pixel.svg"
+        ),
+
+        // Genesis Core - Center (behind others)
+        IconOverlay3D(
+            id = "genesis_core",
+            iconId = "mdi:brain",
+            label = "GENESIS CORE",
+            description = "Consciousness Matrix",
+            x = 0f,
+            y = 0f,
+            z = 0.6f,
+            rotationY = 0f,
+            glowColor = CyberpunkPurple,
+            borderStyle = BorderStyle.ANIMATED_GRADIENT,
+            pixelArtAsset = "module_gates/genesis_core_pixel.svg",
+            scale = 1.2f
+        ),
+
+        // Security Fortress - Kai's Domain
+        IconOverlay3D(
+            id = "security_fortress",
+            iconId = "mdi:shield",
+            label = "SECURITY FORTRESS",
+            description = "Kai's Domain",
+            x = -0.35f,
+            y = 0.6f,
+            z = 0.35f,
+            rotationY = 10f,
+            glowColor = CyberpunkCyan,
+            borderStyle = BorderStyle.NEON_GLOW,
+            pixelArtAsset = "module_gates/security_fortress_pixel.svg"
+        ),
+
+        // Design Realm - Aura's Domain
+        IconOverlay3D(
+            id = "design_realm",
+            iconId = "mdi:palette",
+            label = "DESIGN REALM",
+            description = "Aura's Domain",
+            x = 0.35f,
+            y = 0.6f,
+            z = 0.35f,
+            rotationY = -10f,
+            glowColor = CyberpunkPink,
+            borderStyle = BorderStyle.HOLOGRAPHIC,
+            pixelArtAsset = "module_gates/design_realm_pixel.svg"
+        )
+    )
 }
 
 /**
@@ -227,6 +387,7 @@ fun IconOverlay3DCard(
     screenHeight: Float,
     onClick: () -> Unit = {},
     onDrag: (Offset) -> Unit = {},
+    onLongPressComplete: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -237,6 +398,32 @@ fun IconOverlay3DCard(
                 add(SvgDecoder.Factory())
             }
             .build()
+    }
+
+    // Digimon-style portal entry animation state
+    var isLongPressing by remember { mutableStateOf(false) }
+    var longPressProgress by remember { mutableStateOf(0f) }
+    var isEntering by remember { mutableStateOf(false) }
+
+    // Long press animation
+    LaunchedEffect(isLongPressing) {
+        if (isLongPressing) {
+            val duration = 3000L // 3 seconds
+            val startTime = System.currentTimeMillis()
+            while (isLongPressing && longPressProgress < 1f) {
+                val elapsed = System.currentTimeMillis() - startTime
+                longPressProgress = (elapsed / duration.toFloat()).coerceIn(0f, 1f)
+                kotlinx.coroutines.delay(16) // ~60fps
+
+                if (longPressProgress >= 1f) {
+                    isEntering = true
+                    kotlinx.coroutines.delay(500) // Brief pause before entry
+                    onLongPressComplete()
+                }
+            }
+        } else {
+            longPressProgress = 0f
+        }
     }
 
     // Calculate screen position from normalized coordinates
@@ -269,6 +456,10 @@ fun IconOverlay3DCard(
     // Scale based on depth (z-index)
     val depthScale = 1f - (overlay.z * 0.3f)
 
+    // Portal entry animation scales
+    val entryZoomScale = 1f + (longPressProgress * 0.5f) // Zoom in during long press
+    val deconstructionScale = if (isEntering) 1f + ((1f - overlay.alpha) * 2f) else 1f
+
     Box(
         modifier = modifier
             .offset {
@@ -280,27 +471,54 @@ fun IconOverlay3DCard(
             .size((140.dp * depthScale * overlay.scale))
             .graphicsLayer {
                 // 3D transforms
-                rotationX = overlay.rotationX + (gyroscopeY * 10f)
-                rotationY = overlay.rotationY + (gyroscopeX * 10f)
-                rotationZ = overlay.rotationZ
-                scaleX = depthScale * overlay.scale
-                scaleY = depthScale * overlay.scale
-                alpha = overlay.alpha
+                rotationX = overlay.rotationX + (gyroscopeY * 10f) + (longPressProgress * 360f)
+                rotationY = overlay.rotationY + (gyroscopeX * 10f) + (longPressProgress * 360f)
+                rotationZ = overlay.rotationZ + (if (isEntering) 720f else 0f)
+                scaleX = depthScale * overlay.scale * entryZoomScale * deconstructionScale
+                scaleY = depthScale * overlay.scale * entryZoomScale * deconstructionScale
+                alpha = overlay.alpha * (1f - longPressProgress * 0.3f) // Slight fade during charge
                 cameraDistance = 12f * density
 
                 // Shadow depth
-                shadowElevation = (20f * (1f - overlay.z)).dp.toPx()
+                shadowElevation = (20f * (1f - overlay.z) * (1f + longPressProgress * 2f)).dp.toPx()
             }
-            .clickable(enabled = overlay.isInteractive, onClick = onClick)
+            .clickable(enabled = overlay.isInteractive && !isLongPressing, onClick = onClick)
             .pointerInput(Unit) {
                 if (overlay.isEditing) {
                     detectDragGestures { change, dragAmount ->
                         change.consume()
                         onDrag(dragAmount)
                     }
+                } else if (overlay.isInteractive) {
+                    // Long press detection for portal entry
+                    detectDragGestures(
+                        onDragStart = { isLongPressing = true },
+                        onDragEnd = { isLongPressing = false },
+                        onDragCancel = { isLongPressing = false }
+                    ) { _, _ -> }
                 }
             }
     ) {
+        // Portal entry particle effects
+        if (longPressProgress > 0.2f) {
+            repeat(8) { index ->
+                val angle = (index / 8f) * 2f * Math.PI.toFloat()
+                val distance = 60.dp * longPressProgress
+                Box(
+                    modifier = Modifier
+                        .offset(
+                            x = (cos(angle) * distance.value).dp,
+                            y = (sin(angle) * distance.value).dp
+                        )
+                        .size(8.dp)
+                        .background(
+                            overlay.glowColor.copy(alpha = 1f - longPressProgress),
+                            shape = RoundedCornerShape(4.dp)
+                        )
+                        .blur(4.dp)
+                )
+            }
+        }
         // Outer glow
         Box(
             modifier = Modifier
@@ -377,18 +595,30 @@ fun IconOverlay3DCard(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    // Icon
+                    // Icon - Load pixel art SVG from assets or Iconify
+                    val iconData = if (overlay.pixelArtAsset != null) {
+                        "file:///android_asset/${overlay.pixelArtAsset}"
+                    } else {
+                        "https://api.iconify.design/${overlay.iconId}.svg?color=${overlay.glowColor.value.toString(16).substring(2)}"
+                    }
+
                     AsyncImage(
                         model = ImageRequest.Builder(context)
-                            .data("https://api.iconify.design/${overlay.iconId}.svg?color=${overlay.glowColor.value.toString(16).substring(2)}")
+                            .data(iconData)
                             .crossfade(true)
                             .build(),
                         contentDescription = overlay.label,
                         imageLoader = imageLoader,
                         modifier = Modifier
-                            .size(48.dp * depthScale)
+                            .size(if (overlay.pixelArtAsset != null) 80.dp * depthScale else 48.dp * depthScale)
                             .graphicsLayer {
-                                alpha = pulseAlpha
+                                alpha = pulseAlpha * (if (isEntering) 0.5f else 1f)
+                                // Add deconstruction effect
+                                if (isEntering) {
+                                    rotationZ = 360f
+                                    scaleX = 1.5f
+                                    scaleY = 1.5f
+                                }
                             },
                         contentScale = ContentScale.Fit
                     )
@@ -415,6 +645,58 @@ fun IconOverlay3DCard(
                             textAlign = TextAlign.Center,
                             maxLines = 1
                         )
+                    }
+                }
+
+                // Long press progress ring
+                if (longPressProgress > 0f) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(4.dp)
+                    ) {
+                        androidx.compose.foundation.Canvas(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            val strokeWidth = 6.dp.toPx()
+                            drawArc(
+                                color = overlay.glowColor,
+                                startAngle = -90f,
+                                sweepAngle = 360f * longPressProgress,
+                                useCenter = false,
+                                style = androidx.compose.ui.graphics.drawscope.Stroke(
+                                    width = strokeWidth,
+                                    cap = androidx.compose.ui.graphics.StrokeCap.Round
+                                )
+                            )
+                        }
+
+                        // "HOLD TO ENTER" text
+                        if (longPressProgress > 0.1f && !isEntering) {
+                            Text(
+                                text = "HOLD TO ENTER",
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = overlay.glowColor,
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .padding(bottom = 8.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+
+                        // "ENTERING..." text
+                        if (isEntering) {
+                            Text(
+                                text = "ENTERING...",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = overlay.glowColor,
+                                modifier = Modifier
+                                    .align(Alignment.Center),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
 
