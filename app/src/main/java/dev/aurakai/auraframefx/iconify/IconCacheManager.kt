@@ -60,8 +60,8 @@ class IconCacheManager @Inject constructor(
     private val metadataFile: File
         get() = File(cacheDir, "cache_metadata.json")
 
-    // In-memory cache for faster access
-    private val memoryCache = mutableMapOf<String, String>()
+    // In-memory cache for faster access (thread-safe)
+    private val memoryCache = java.util.concurrent.ConcurrentHashMap<String, String>()
     private val maxMemoryCacheSize = 100 // Keep 100 most recent icons in memory
 
     /**
