@@ -1,13 +1,9 @@
 plugins {
-    id("com.android.library")
-    id("com.google.devtools.ksp")
-
-
+    id("genesis.android.library")
 }
 
 android {
     namespace = "dev.aurakai.auraframefx.aura.reactivedesign.auraslab"
-    compileSdk = 36
 }
 
 

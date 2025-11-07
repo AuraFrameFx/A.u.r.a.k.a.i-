@@ -27,9 +27,6 @@ import org.gradle.api.Project
  * ```kotlin
  * plugins {
  *     id("genesis.android.library")
- *     // Optionally add specialized plugins:
- *     // id("genesis.android.yukihook")  // For Xposed modules
- *     // id("genesis.android.room")      // For Room database
  * }
  * ```
  *
@@ -44,11 +41,6 @@ import org.gradle.api.Project
  * - android.namespace = "your.package.name"
  * - Module-specific dependencies
  * - project(...) dependencies for inter-module communication
- *
- * **For specialized modules, also apply**:
- * - `genesis.android.yukihook` - If this is an Xposed/system hook module
- * - `genesis.android.room` - If this uses Room database
- * - Apply AFTER this plugin for proper configuration layering
  *
  * @since Genesis Protocol 2.0
  * @see GenesisApplicationPlugin for application modules

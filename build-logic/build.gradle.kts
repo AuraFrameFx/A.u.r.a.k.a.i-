@@ -73,16 +73,4 @@ gradlePlugin {
 //       id("genesis.android.library")  // All-in-one: Android, Hilt, Compose, KSP
 //   }
 //
-// For YukiHook/Xposed module:
-//   plugins {
-//       id("genesis.android.library")   // Base library with Hilt, Compose, KSP
-//       id("genesis.android.yukihook")  // Add YukiHook/Xposed support
-//   }
-//
-// For Room database module:
-//   plugins {
-//       id("genesis.android.library")  // Base library
-//       id("genesis.android.room")     // Add Room Database
-//   }
-//
 // ═══════════════════════════════════════════════════════════════════════════
