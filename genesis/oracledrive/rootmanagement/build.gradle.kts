@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx.romtools"
+    namespace = "dev.aurakai.auraframefx.genesis.oracledrive.rootmanagement"
     // Java 24 compileOptions are set by genesis.android.base
 }
 

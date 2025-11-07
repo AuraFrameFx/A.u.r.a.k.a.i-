@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx.datavein.oracle"
+    namespace = "dev.aurakai.auraframefx.genesis.oracledrive.datavein"
 }
 
 dependencies {
