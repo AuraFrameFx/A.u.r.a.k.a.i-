@@ -32,7 +32,7 @@ data class DragState(
     val isDragging: Boolean = false,
     val position: Offset = Offset.Zero,
     val isKicking: Boolean = false,
-    val hasTried Escape: Boolean = false,
+    val hasTriedEscape: Boolean = false,
     val hasEscaped: Boolean = false
 )
 
