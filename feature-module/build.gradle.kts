@@ -1,13 +1,16 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // Feature Module - Feature implementations
 // ═══════════════════════════════════════════════════════════════════════════
-plugins {
+
+olugins {
     id("genesis.android.library")
 }
 
 android {
-    namespace = "dev.aurakai.auraframefx.featuremodule"
+    namespace = "dev.aurakai.auraframefx.feature.module"
 }
+include(":libs.versions.toml")
+includeBuild(":build-logic")
 
 dependencies {
     // ═══════════════════════════════════════════════════════════════════════
@@ -35,5 +38,5 @@ dependencies {
     compileOnly(files("$projectDir/libs/api-82.jar"))
 
     // YukiHook API Code Generation (Xposed framework)
-    ksp(libs.yukihookapi.ksp.xposed)
+    ksp(libs.yukihookapi.ksp)
 }
