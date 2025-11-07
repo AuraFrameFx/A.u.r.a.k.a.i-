@@ -22,9 +22,8 @@ android {
 }
 
 dependencies {
-    // Room runtime
+    // Room runtime (includes ktx extensions)
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
 
     // Room compiler (KSP)
     ksp(libs.androidx.room.compiler)
