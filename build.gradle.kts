@@ -1,27 +1,21 @@
-plugins {
-    `java-library`
+// Root build.gradle.kts
+// ═══════════════════════════════════════════════════════════════════════════
+// A.u.r.a.K.a.I Reactive Intelligence - Root Build Configuration
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// This is the root build file for the entire multi-module project.
+// Its ONLY purpose is to define the root-level clean task.
+//
+// ALL configuration logic has been moved to convention plugins in build-logic/
+// This follows modern Gradle best practices for large multi-module projects.
+//
+// Genesis Convention Plugins Available:
+//   • genesis.android.application - For the :app module
+//   • genesis.android.library     - For Android library modules
+//   • genesis.android.base        - Foundational Android configuration (auto-applied)
+//
+// ═══════════════════════════════════════════════════════════════════════════
+
+tasks.register("clean", Delete::class) {
+    delete(rootProject.layout.buildDirectory)
 }
-
-subprojects {
-    configurations.all {
-        resolutionStrategy {
-            // Force the modern JetBrains annotations version
-            force("org.jetbrains:annotations:26.0.2-1")
-            // Prefer org.jetbrains over com.intellij for annotations
-            eachDependency {
-                if (requested.group == "com.intellij" && requested.name == "annotations") {
-                    useTarget("org.jetbrains:annotations:26.0.2-1")
-                    because("Avoid duplicate annotations classes")
-                }
-            }
-        }
-
-        // Exclude the old IntelliJ annotations from all dependencies
-        exclude(group = "com.intellij", module = "annotations")
-    }
-
-    // Configure Java toolchain for java projects and Kotlin jvm toolchain for Kotlin projects centrally
-    // Use Java 24 (supported by Kotlin) as the toolchain language version
-    val javaToolchainVersion = 24
-}
-

@@ -1,32 +1,38 @@
-plugins { `kotlin-dsl` }
+plugins {
+    `kotlin-dsl`        // applies java-gradle-plugin
+}
 
-java {
-    toolchain { languageVersion.set(JavaLanguageVersion.of(25)) }
+repositories {
+    google()
+    mavenCentral()
 }
 
 dependencies {
-    // Avoid leaking plugins to consumers
-    compileOnly(libs.plugins.android.application)
-    compileOnly(libs.plugins.kotlin.android)
-    compileOnly(libs.plugins.dagger.hilt)
-    compileOnly(libs.plugins.devtools.ksp)
-    compileOnly(libs.plugins.google.services)
-    compileOnly(libs.plugins.compose.compiler) // for type references
+    // IMPORTANT: build-logic cannot use version catalog (libs.*) - builds BEFORE catalog available!
+    // Use hardcoded versions matching settings.gradle.kts plugin declarations
+    implementation("com.android.tools.build:gradle:9.0.0-alpha13")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0-Beta2")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
+    implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.1")
+    implementation("com.google.gms:google-services:4.4.4")
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Genesis Convention Plugins Registration
+// ═══════════════════════════════════════════════════════════════════════════
 gradlePlugin {
     plugins {
-        create("genesisApplication") {
-            id = "genesis.application"
-            implementationClass = "plugins.GenesisApplicationPlugin"
+        register("com.android.base") {
+            id = "genesis.android.base"
+            implementationClass = "plugins.GenesisBasePlugin"
         }
-        create("genesisLibrary") {
-            id = "genesis.library"
+        register("com.android.library") {
+            id = "genesis.android.library"
             implementationClass = "plugins.GenesisLibraryPlugin"
         }
-        create("genesisBase") {
-            id = "genesis.base"
-            implementationClass = "plugins.GenesisBasePlugin"
+        register("com.android.application") {
+            id = "genesis.android.application"
+            implementationClass = "plugins.GenesisApplicationPlugin"
         }
     }
 }

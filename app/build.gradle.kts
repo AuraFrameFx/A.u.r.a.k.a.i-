@@ -1,115 +1,182 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// PRIMARY CONVENTION PLUGIN - All-in-one Application Configuration
+// ═══════════════════════════════════════════════════════════════════════════
+// This single plugin applies (in correct order):
+// 1. com.android.application
+// 2. com.google.dagger.hilt.android (Dependency Injection)
+// 3. com.google.devtools.ksp (Annotation Processing)
+// 4. org.jetbrains.kotlin.plugin.compose (Compose Compiler)
+// 5. genesis.android.base (SDK config, universal dependencies)
+//
+// NO NEED to declare plugins individually - GenesisApplicationPlugin handles everything!
+// ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("com.android.application") version "9.0.0-alpha13"
-    id("com.google.dagger.hilt.android") version "2.57.2"
-    id("com.google.devtools.ksp") version "2.3.0"
-
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-
+    id("genesis.android.application")
 }
 
 android {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = libs.versions.compile.sdk.get().toInt()
+    ndkVersion = libs.versions.ndk.get()
+
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
-        minSdk = libs.versions.min.sdk.get().toInt()
+        // minSdk, compileSdk, targetSdk are configured by genesis.android.base
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = 1
         versionName = "0.1.0"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++20"
+                arguments += listOf(
+                    "-DANDROID_STL=c++_shared",
+                    "-DANDROID_PLATFORM=android-${libs.versions.min.sdk.get()}"
+                )
+            }
+        }
+    }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+        abortOnError = true
+        checkReleaseBuilds = false
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = libs.versions.cmake.get()
+        }
     }
 }
 dependencies {
-// Compose
-    // Hooking & reflection libraries — use version-catalog aliases where possible
-    compileOnly(libs.xposed.api)
-    implementation(libs.yukihookapi.api)
-    implementation(libs.kavaref.core)
-    implementation(libs.kavaref.extension)
-    // Local Xposed API JARs (backup/reference)
-    compileOnly(files("libs/api-82.jar"))
-    compileOnly(files("libs/api-82-sources.jar"))
-    // If using YukiHook ksp-xposed processor (only for Xposed module usage)
-    ksp(libs.yukihookapi.ksp.xposed)
+    // ═══════════════════════════════════════════════════════════════════════════
+    // NOTE: The following are AUTOMATICALLY provided by genesis.android.application:
+    // - Kotlin Coroutines (core + android)
+    // - Timber (logging)
+    // - Testing libraries (JUnit, AndroidX JUnit, Espresso)
+    // - Core library desugaring
+    // - Hilt Android + Compiler (auto-wired with KSP)
+    //
+    // You only need to declare module-specific dependencies below!
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Compose UI
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.animation)
     debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.compose.ui.tooling.preview)
-// AndroidX core
+
+    // AndroidX Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
-    // Use KSP for Room compiler (KSP plugin is applied at the top of this build script)
-    ksp(libs.androidx.room.compiler)
-// Hilt (KSP line is critical)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
 
-// Root/system utils
-    implementation(libs.libsu.core)
-    implementation(libs.libsu.io)
-    implementation(libs.libsu.service)
-    implementation(libs.compose.ui.graphics) // use version-catalog entry
-
-
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.hilt.work)
-    implementation(libs.androidx.navigation.compose)
+    // Lifecycle Components
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    // Room Database
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
+
+    // DataStore
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.core)
+
+    // Security
     implementation(libs.androidx.security.crypto)
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.leakcanary.android)
 
+    // Root/System Utils
+    implementation(libs.libsu.core)
+    implementation(libs.libsu.io)
+    implementation(libs.libsu.service)
 
-    // Kotlin datetime
-    implementation(libs.kotlinx.datetime)
+    // YukiHook API
+    ksp(libs.yukihookapi.api)
 
-    // Firebase dependencies - using KTX (Kotlin Extensions) for better Kotlin support
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics.ktx)
-    implementation(libs.firebase.crashlytics.ktx)
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.firestore.ktx)
+    // Firebase
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 
-// Networking (pick one converter path; here kotlinx‑serialization)
+    // Networking
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)
+    implementation(libs.retrofit.converter.moshi)
 
-// Kotlin + utils
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
+    // Serialization
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.timber)
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.kotlin.codegen)
+
+    // Kotlin DateTime
+    implementation(libs.kotlinx.datetime)
+
+    // Image Loading
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
+
+    // Animations
     implementation(libs.lottie.compose)
 
-// Internal project modules - ensure app has access to shared code and generated types
+    // Memory Leak Detection
+    debugImplementation(libs.leakcanary.android)
+
+    // Android API JARs
+    compileOnly(files("$projectDir/libs/api-82.jar"))
+    compileOnly(files("$projectDir/libs/api-82-sources.jar"))
+
+    // Internal Project Modules - Core
     implementation(project(":core-module"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
-    implementation(project(":feature-module"))
-    implementation(project(":secure-comm"))
-    implementation(project(":romtools"))
-    implementation(project(":colorblendr"))
     implementation(project(":list"))
-    implementation(project(":oracle-drive-integration"))
-    implementation(project(":collab-canvas"))
-    implementation(project(":datavein-oracle-native"))
-    implementation(project(":romtools"))
 
+    // Aura → ReactiveDesign (Creative UI & Collaboration)
+    implementation(project(":aura:reactivedesign:auraslab"))
+    implementation(project(":aura:reactivedesign:collabcanvas"))
+    implementation(project(":aura:reactivedesign:chromacore"))
+    implementation(project(":aura:reactivedesign:customization"))
+
+    // Kai → SentinelsFortress (Security & Threat Monitoring)
+    implementation(project(":kai:sentinelsfortress:security"))
+    implementation(project(":kai:sentinelsfortress:systemintegrity"))
+    implementation(project(":kai:sentinelsfortress:threatmonitor"))
+
+    // Genesis → OracleDrive (System & Root Management)
+    implementation(project(":genesis:oracledrive"))
+    implementation(project(":genesis:oracledrive:rootmanagement"))
+    implementation(project(":genesis:oracledrive:datavein"))
+
+    // Cascade → DataStream (Data Routing & Delivery)
+    implementation(project(":cascade:datastream:routing"))
+    implementation(project(":cascade:datastream:delivery"))
+    implementation(project(":cascade:datastream:taskmanager"))
+
+    // Agents → GrowthMetrics (AI Agent Evolution)
+    implementation(project(":agents:growthmetrics:metareflection"))
+    implementation(project(":agents:growthmetrics:nexusmemory"))
+    implementation(project(":agents:growthmetrics:spheregrid"))
+    implementation(project(":agents:growthmetrics:identity"))
+    implementation(project(":agents:growthmetrics:progression"))
+    implementation(project(":agents:growthmetrics:tasker"))
 }

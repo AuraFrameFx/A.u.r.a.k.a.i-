@@ -4,32 +4,30 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /**
- * Android library conventions. AGP9 alpha builds sometimes need com.android.base present.
+ * ═══════════════════════════════════════════════════════════════════════════
+ * GENESIS LIBRARY CONVENTION PLUGIN
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
+ * Primary convention plugin for Android library modules.
+ * Applies all necessary plugins in the correct order.
+ *
+ * Usage:
+ * ```kotlin
+ * plugins {
+ *     id("genesis.android.library")
+ * }
+ * android {
+ *     namespace = "dev.aurakai.auraframefx.your.module"
+ * }
+ * ```
  */
 class GenesisLibraryPlugin : Plugin<Project> {
-    override fun apply(target: Project) = with(target.pluginManager) {
-        apply("com.android.base")
-        apply("genesis.android.library")
-        // helps certain plugin checks in AGP 9 alphas
-        apply("org.jetbrains.kotlin.android")
+    override fun apply(project: Project) = with(project.pluginManager) {
+        // CRITICAL ORDER: Android → Hilt → Compose → KSP → Base
+        apply("com.android.library")
         apply("com.google.dagger.hilt.android")
-        apply("com.google.devtools.ksp")
         apply("org.jetbrains.kotlin.plugin.compose")
-        apply("org.jetbrains.kotlin.plugin.serialization")
+        apply("com.google.devtools.ksp")
+        apply("genesis.android.base")
     }
-}
-plugins.withId("org.jetbrains.kotlin.android") {
-    extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension> {
-        compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget("24"))
-    }
-}
-plugins.withId("org.jetbrains.kotlin.jvm") {
-    extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension> {
-        compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget("24"))
-    }
-}
-buildFeatures { compose = true }
-// You might also need a composeOptions block
-composeOptions {
-    kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
 }
