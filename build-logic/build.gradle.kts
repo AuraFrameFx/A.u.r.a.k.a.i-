@@ -22,15 +22,15 @@ dependencies {
 // ═══════════════════════════════════════════════════════════════════════════
 gradlePlugin {
     plugins {
-        register("genesis.android.base") {
+        register("com.android.base") {
             id = "genesis.android.base"
             implementationClass = "plugins.GenesisBasePlugin"
         }
-        register("genesis.android.library") {
+        register("com.android.library") {
             id = "genesis.android.library"
             implementationClass = "plugins.GenesisLibraryPlugin"
         }
-        register("genesis.android.application") {
+        register("com.android.application") {
             id = "genesis.android.application"
             implementationClass = "plugins.GenesisApplicationPlugin"
         }
