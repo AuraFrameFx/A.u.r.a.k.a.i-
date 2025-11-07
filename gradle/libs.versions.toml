@@ -403,8 +403,8 @@ kotlin-stdlib = [
     "kotlinx-datetime",
 ]
 
-# Kotlinx Serialization formats bundle
-kotlinx-serialization = [
+# Kotlinx Serialization formats bundle (renamed to avoid accessor conflict)
+serialization-formats = [
     "kotlinx-serialization-core",
     "kotlinx-serialization-json",
     "kotlinx-serialization-protobuf",
