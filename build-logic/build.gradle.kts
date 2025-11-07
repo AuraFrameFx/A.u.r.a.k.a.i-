@@ -10,17 +10,18 @@ java {
     }
 }
 
+// These blocks MUST be at the top level, AFTER the java block.
+// IMPORTANT: build-logic cannot use version catalog (libs.*) - it builds BEFORE catalog is available!
 dependencies {
-    // Plugin dependencies for convention plugins
-    // These allow the convention plugins to apply Android, Kotlin, Hilt, KSP, and Google Services plugins
-    implementation(libs.gradle.plugin)
-    implementation(libs.kotlin.gradle.plugin)
-    implementation(libs.hilt.gradle.plugin)
-    implementation(libs.ksp.gradle.plugin)
-    implementation(libs.google.services.gradle.plugin)
+    implementation("com.android.tools.build:gradle:9.0.0-alpha13")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0-Beta2")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
+    implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.1")
+    implementation("com.google.gms:google-services:4.4.4")
 
-    // Kotlin Serialization plugin is bundled in kotlin-gradle-plugin, but we need to ensure it's accessible
-    // The serialization plugin is applied via kotlin-gradle-plugin, no separate dependency needed
+    testImplementation(gradleTestKit())
+    testImplementation("org.junit.jupiter:junit-jupiter-api:6.0.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:6.0.1")
 }
 // ═══════════════════════════════════════════════════════════════════════════
 // Binary Kotlin Class Plugins Registration
