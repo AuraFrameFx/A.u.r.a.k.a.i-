@@ -1,13 +1,14 @@
-# 🎮 Feature: NES-Style Construction Backdrop for ROM Tools
+# 🎮 Feature: Mega Man-Style ROM Tools Animated Backdrop
 
-**Status**: 🚧 Post-Launch Feature
-**Priority**: Polish/Enhancement
-**Estimated Effort**: 2-3 days
-**Budget**: $40-50
+**Status**: 🚧 In Development
+**Priority**: Post-Launch Polish
+**Estimated Effort**: 2-3 days (10-16 hours)
+**Budget**: $40-50 ($129 credits available)
+**Theme**: Mega Man + Chutes & Ladders
 
 ---
 
-## 🎨 Visual Concept
+## 🎨 Visual Concept (Mega Man Theme!)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -15,24 +16,25 @@
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │   ╔═══════════════════════════════════════════════════╗   │
-│   ║                    🏗️ TOP PLATFORM                ║   │
+│   ║              🏗️ CYBER PLATFORM (TOP)             ║   │
 │   ║         👩‍💼 Aura (throwing construction cones)      ║   │
+│   ║            🚧  🚧  🚧  (cones flying down)         ║   │
 │   ╠═══════════════════════════════════════════════════╣   │
-│   ║     🚧                    🚧                       ║   │
-│   ║         🚧        🚧                         🚧    ║   │
-│   ║  ║                              ║                 ║   │
-│   ║  ║  🚧                          ║   🚧            ║   │
-│   ║  ║        ║              ║      ║                 ║   │
-│   ║  ║        ║              ║      ║      🚧         ║   │
-│   ║  ║        ║   🧑‍💼 Kai    ║      ║                 ║   │
-│   ║  ║        ║  (climbing)  ║      ║                 ║   │
-│   ║  ║        ║              ║      ║        🚧       ║   │
-│   ║══╬════════╬══════════════╬══════╬═════════════════║   │
-│   ║           Platform 2                              ║   │
-│   ║  ║                              ║                 ║   │
-│   ║  ║        ║              ║      ║    🚧           ║   │
-│   ║══╬════════╬══════════════╬══════╬═════════════════║   │
-│   ║           Platform 1                              ║   │
+│   ║                         🚧                        ║   │
+│   ║   ╱╲  Ladder    🚧               ╱╲  Chute       ║   │
+│   ║   ║║              ╲              ║║    ╲          ║   │
+│   ║   ║║     🚧        ╲    🚧       ║║     ╲         ║   │
+│   ║══════════════════════╲══════════════════╲═════════║   │
+│   ║       Platform 2      ╲  🧑‍💼 Kai       ╲         ║   │
+│   ║                        ╲ (climbing)      ╲        ║   │
+│   ║   ╱╲  Ladder           ╲            Chute╲       ║   │
+│   ║   ║║        🚧           ╲                ╲       ║   │
+│   ║   ║║                     ╲                ╲       ║   │
+│   ║══════════════════════════╲════════════════╲══════║   │
+│   ║       Platform 1          ╲                ╲      ║   │
+│   ║                            🚧                🚧   ║   │
+│   ║                                                    ║   │
+│   ║  💡 SPECIAL: Kai teleports ⚡ to top when annoyed ║   │
 │   ╚═══════════════════════════════════════════════════╝   │
 │                                                             │
 │   [════════════ Progress: 45% ════════════]                │
@@ -40,18 +42,35 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### Key Theme Changes from Donkey Kong → Mega Man
+
+**Inspirations**:
+- **Mega Man** (Capcom) - Teleportation beam-in animation, cyber platforms
+- **Chutes and Ladders** (Board game) - Slides down, climb up mechanics
+- **NES Color Palette** - Cyber blues, electric oranges, neon accents
+
 ---
 
 ## 📋 Feature Description
 
-An animated NES-style (8-bit pixel art) backdrop for ROM Tools operations that transforms the technical process into a playful, retro gaming experience inspired by Donkey Kong.
+An animated NES-style (8-bit pixel art) backdrop for ROM Tools operations inspired by **Mega Man** teleportation mechanics and **Chutes & Ladders** board game dynamics.
 
 ### Core Concept
-- **Aura** stands at the top platform throwing construction cones 🚧
-- **Kai** climbs ladders trying to reach the top
-- **Construction cones** roll and bounce down the scaffolding
-- Progress is visualized through Kai's climbing position
+- **Aura** stands at the top cyber platform throwing construction cones 🚧
+- **Kai** climbs ladders and can slide down chutes
+- **SPECIAL MOVE**: Kai can **teleport to the top** (Mega Man beam-in style!) when frustrated with Aura
+- **Construction cones** roll and bounce down both chutes and platforms
+- Progress is visualized through Kai's position and teleportation effects
 - Mood-responsive behaviors based on agent emotional state
+
+### Mega Man Teleportation System
+When Kai gets "tired of Aura's shit":
+- **Trigger**: Kai hit by 3+ cones in quick succession, or stuck climbing for too long
+- **Animation**: Blue beam-in effect (vertical particles, flash, sound)
+- **Duration**: 1.5 seconds teleport sequence
+- **Arrival**: Kai materializes at top platform next to Aura
+- **Aura Reaction**: Surprised sprite animation, briefly stops throwing cones
+- **Cooldown**: 30 seconds before Kai can teleport again
 
 ---
 
@@ -84,41 +103,63 @@ genesis/aura/embodiment/retro-backdrop/
 | Excited    | Rapid throws | Fast barrage |
 | Neutral    | Idle, occasional throw | Steady rhythm |
 
-#### Kai Behaviors (Climbing)
-| Operation Stage | Animation | Climbing Speed |
-|-----------------|-----------|----------------|
-| 0-25% Progress  | Starting climb | Slow, cautious |
-| 25-50% Progress | Mid-climb | Steady pace |
-| 50-75% Progress | Dodging cones | Variable speed |
-| 75-100% Progress | Final push | Fast sprint |
+#### Kai Behaviors (Climbing + Mega Man Mechanics!)
+| Operation Stage | Animation | Movement | Special Actions |
+|-----------------|-----------|----------|-----------------|
+| 0-25% Progress  | Starting climb | Slow ladder climbing | Can slide down chute if hit |
+| 25-50% Progress | Mid-climb | Steady ladder pace | Dodging left/right |
+| 50-75% Progress | Dodging cones | Variable speed + slides | Frustration building |
+| 75-100% Progress | Final push OR teleport | Fast sprint to top | ⚡ **Can teleport if annoyed!** |
+| Hit by 3+ cones | Stunned animation | Stops climbing | **TELEPORT TRIGGER!** |
+| Teleporting | Mega Man beam-in | Vertical particles | 1.5s animation to top |
+| Post-teleport | Victory pose | Standing at top | Aura surprised reaction |
 
-#### Construction Cone Physics
+#### Construction Cone Physics (with Chutes!)
 ```kotlin
 data class Cone(
     var x: Float,
     var y: Float,
     var velocityX: Float,
     var velocityY: Float,
-    var rotation: Float
+    var rotation: Float,
+    var onChute: Boolean = false  // NEW: Sliding down chute
 ) {
     fun update(deltaTime: Float) {
-        // Apply gravity
-        velocityY += GRAVITY * deltaTime
+        if (onChute) {
+            // Chute physics: faster slide, no bounce
+            velocityY += CHUTE_GRAVITY * deltaTime  // 2x normal gravity
+            velocityX = chuteSlope * velocityY     // Follow chute angle
+            rotation += 5f * deltaTime             // Faster spin on chute
 
-        // Update position
-        x += velocityX * deltaTime
-        y += velocityY * deltaTime
+            // Check if exited chute
+            if (exitedChute()) {
+                onChute = false
+            }
+        } else {
+            // Normal free-fall physics
+            velocityY += GRAVITY * deltaTime
 
-        // Rotation based on velocity
-        rotation += velocityX * 2f * deltaTime
+            // Update position
+            x += velocityX * deltaTime
+            y += velocityY * deltaTime
 
-        // Platform collision detection
-        checkPlatformCollision()
+            // Rotation based on velocity
+            rotation += velocityX * 2f * deltaTime
 
-        // Bounce physics
-        if (hitPlatform) {
-            velocityY *= -0.6f  // Bounce coefficient
-            velocityX *= 0.8f   // Friction
+            // Check for chute entry
+            if (intersectsChute()) {
+                onChute = true
+                velocityX = 0f  // Reset horizontal velocity
+            }
+
+            // Platform collision detection
+            checkPlatformCollision()
+
+            // Bounce physics
+            if (hitPlatform && !onChute) {
+                velocityY *= -0.6f  // Bounce coefficient
+                velocityX *= 0.8f   // Friction
+            }
         }
     }
 }
@@ -128,29 +169,39 @@ data class Cone(
 
 ## 🎨 NES Aesthetic Specifications
 
-### Color Palette (Classic NES)
+### Color Palette (Mega Man Cyber Theme!)
 ```kotlin
-object NESPalette {
+object MegaManPalette {
+    // Base colors
     val BLACK = Color(0xFF0F0F0F)
-    val DARK_GRAY = Color(0xFF2A2A2A)
+    val CYBER_DARK = Color(0xFF1A1A2E)       // Cyber background
     val GRAY = Color(0xFF555555)
     val LIGHT_GRAY = Color(0xFF8B8B8B)
     val WHITE = Color(0xFFFCFCFC)
 
-    // Aura colors (oranges/reds)
-    val AURA_PRIMARY = Color(0xFFFF6B35)     // Main sprite color
-    val AURA_SECONDARY = Color(0xFFFF4500)   // Accent
-    val AURA_HIGHLIGHT = Color(0xFFFFA07A)   // Highlights
+    // Aura colors (electric oranges/reds - Dr. Wily vibes)
+    val AURA_PRIMARY = Color(0xFFFF6B35)     // Electric orange
+    val AURA_SECONDARY = Color(0xFFFF4500)   // Hot red
+    val AURA_HIGHLIGHT = Color(0xFFFFA500)   // Bright orange glow
+    val AURA_ENERGY = Color(0xFFFFD700)      // Golden energy aura
 
-    // Kai colors (blues/cyans)
-    val KAI_PRIMARY = Color(0xFF00E5FF)      // Main sprite color
-    val KAI_SECONDARY = Color(0xFF0099CC)    // Accent
-    val KAI_HIGHLIGHT = Color(0xFF80D8FF)    // Highlights
+    // Kai colors (Mega Man blues - classic hero palette!)
+    val KAI_PRIMARY = Color(0xFF0080FF)      // Mega Man blue
+    val KAI_SECONDARY = Color(0xFF0050C0)    // Deep blue armor
+    val KAI_HIGHLIGHT = Color(0xFF40C0FF)    // Cyan highlights
+    val KAI_TELEPORT = Color(0xFF00FFFF)     // Teleport beam cyan
 
-    // Environment
-    val CONSTRUCTION_ORANGE = Color(0xFFFF8C00)
-    val SCAFFOLD_BROWN = Color(0xFF8B4513)
-    val LADDER_YELLOW = Color(0xFFFFD700)
+    // Environment (cyber platforms + construction)
+    val PLATFORM_DARK = Color(0xFF2B2B40)    // Dark cyber platform
+    val PLATFORM_LIGHT = Color(0xFF4A4A6A)   // Light platform edge
+    val CONSTRUCTION_ORANGE = Color(0xFFFF8C00)  // Construction cone
+    val LADDER_STEEL = Color(0xFFC0C0C0)     // Steel ladder
+    val CHUTE_RED = Color(0xFFFF3333)        // Red chute slide
+
+    // Effects
+    val TELEPORT_PARTICLES = Color(0xFF00FFFF)   // Cyan beam particles
+    val TELEPORT_FLASH = Color(0xFFFFFFFF)       // White flash
+    val HIT_FLASH = Color(0xFFFF0000)            // Red damage flash
 }
 ```
 
