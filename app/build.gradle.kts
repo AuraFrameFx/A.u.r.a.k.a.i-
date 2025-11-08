@@ -39,12 +39,13 @@ android {
                 }
             }
         }
+    }
 
-        lint {
-            baseline = file("lint-baseline.xml")
-            abortOnError = true
-            checkReleaseBuilds = false
-        }
+    lint {
+        baseline = file("lint-baseline.xml")
+        abortOnError = true
+        checkReleaseBuilds = false
+    }
 
         buildFeatures {
         buildConfig = true
@@ -56,43 +57,44 @@ android {
             }
         }
     }
-    dependencies {
-        // ═══════════════════════════════════════════════════════════════════════════
-        // NOTE: The following are AUTOMATICALLY provided by genesis.android.application:
-        // - Kotlin Coroutines (core + android)
-        // - Timber (logging)
-        // - Testing libraries (JUnit, AndroidX JUnit, Espresso)
-        // - Core library desugaring
-        // - Hilt Android + Compiler (auto-wired with KSP)
-        //
-        // You only need to declare module-specific dependencies below!
-        // ═══════════════════════════════════════════════════════════════════════════
+}
+dependencies {
+    // ═══════════════════════════════════════════════════════════════════════════
+    // NOTE: The following are AUTOMATICALLY provided by genesis.android.application:
+    // - Kotlin Coroutines (core + android)
+    // - Timber (logging)
+    // - Testing libraries (JUnit, AndroidX JUnit, Espresso)
+    // - Core library desugaring
+    // - Hilt Android + Compiler (auto-wired with KSP)
+    //
+    // You only need to declare module-specific dependencies below!
+    // ═══════════════════════════════════════════════════════════════════════════
 
-        // Compose UI
-        implementation(platform(libs.androidx.compose.bom))
-        implementation(libs.compose.ui)
-        implementation(libs.compose.ui.graphics)
-        implementation(libs.compose.ui.tooling.preview)
-        implementation(libs.compose.material3)
-        implementation(libs.compose.animation)
-        debugImplementation(libs.compose.ui.tooling)
+    // Compose UI
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.animation)
+    debugImplementation(libs.compose.ui.tooling)
 
-        // AndroidX Core
-        implementation(libs.androidx.core.ktx)
-        implementation(libs.androidx.appcompat)
-        implementation(libs.androidx.material)
-        implementation(libs.androidx.activity.compose)
-        implementation(libs.androidx.navigation.compose)
+    // AndroidX Core
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
 
-        // Lifecycle Components
-        implementation(libs.androidx.lifecycle.runtime.ktx)
-        implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // Lifecycle Components
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-        // Room Database
-        implementation(libs.androidx.room.runtime)
-        implementation(libs.androidx.room.ktx)
+    // Room Database
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
 
-        // Hilt Dependency Injection (REQUIRED when using Hilt plugin)
+    // Hilt Dependency Injection (REQUIRED when using Hilt plugin)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
