@@ -36,6 +36,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,6 +50,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aurakai.auraframefx.romtools.BackupInfo
 import dev.aurakai.auraframefx.romtools.RomCapabilities
 import dev.aurakai.auraframefx.romtools.RomToolsManager
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Main ROM Tools screen for Genesis AuraFrameFX.
@@ -62,6 +65,7 @@ fun RomToolsScreen(
 ) {
     val romToolsState by romToolsManager.romToolsState.collectAsStateWithLifecycle()
     val operationProgress by romToolsManager.operationProgress.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
 
     // Main column container
     Column(
@@ -90,7 +94,69 @@ fun RomToolsScreen(
             LoadingScreen()
         } else {
             // Main content
-            MainContent(romToolsState, operationProgress)
+            MainContent(
+                romToolsState = romToolsState,
+                operationProgress = operationProgress,
+                onActionClick = { actionType ->
+                    handleRomAction(
+                        actionType = actionType,
+                        romToolsManager = romToolsManager,
+                        coroutineScope = coroutineScope
+                    )
+                }
+            )
+        }
+    }
+}
+
+/**
+ * Handles ROM tool action clicks by dispatching to the appropriate RomToolsManager method.
+ *
+ * @param actionType The type of ROM action to perform
+ * @param romToolsManager The manager instance to execute the operation
+ * @param coroutineScope The coroutine scope for launching suspend operations
+ */
+private fun handleRomAction(
+    actionType: RomActionType,
+    romToolsManager: RomToolsManager,
+    coroutineScope: kotlinx.coroutines.CoroutineScope
+) {
+    coroutineScope.launch {
+        when (actionType) {
+            RomActionType.FLASH_ROM -> {
+                // TODO: Show ROM selection dialog
+                Timber.i("Flash ROM action triggered - ROM selection dialog needed")
+            }
+            RomActionType.CREATE_BACKUP -> {
+                // Generate a timestamp-based backup name
+                val backupName = "AuraKai_Backup_${System.currentTimeMillis()}"
+                val result = romToolsManager.createNandroidBackup(backupName)
+                result.onSuccess {
+                    Timber.i("Backup created successfully: ${it.name}")
+                }.onFailure { error ->
+                    Timber.e(error, "Backup creation failed")
+                }
+            }
+            RomActionType.RESTORE_BACKUP -> {
+                // TODO: Show backup selection dialog
+                Timber.i("Restore backup action triggered - backup selection dialog needed")
+            }
+            RomActionType.UNLOCK_BOOTLOADER -> {
+                // TODO: Add bootloader unlock support
+                Timber.i("Unlock bootloader action triggered - requires bootloader manager integration")
+            }
+            RomActionType.INSTALL_RECOVERY -> {
+                // TODO: Add recovery installation support
+                Timber.i("Install recovery action triggered - requires recovery manager integration")
+            }
+            RomActionType.GENESIS_OPTIMIZATIONS -> {
+                val result = romToolsManager.installGenesisOptimizations()
+                result.onSuccess {
+                    Timber.i("Genesis AI optimizations applied successfully")
+                }.onFailure { error ->
+                    Timber.e(error, "Genesis optimizations failed")
+                }
+            }
         }
     }
 }
@@ -121,7 +187,8 @@ private fun LoadingScreen() {
 @Composable
 private fun MainContent(
     romToolsState: dev.aurakai.auraframefx.romtools.RomToolsState,
-    operationProgress: dev.aurakai.auraframefx.romtools.OperationProgress?
+    operationProgress: dev.aurakai.auraframefx.romtools.OperationProgress?,
+    onActionClick: (RomActionType) -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -158,7 +225,7 @@ private fun MainContent(
                     action = action,
                     isEnabled = action.isEnabled(romToolsState.capabilities),
                     onClick = {
-                        // TODO: Handle ROM tool action click
+                        onActionClick(action.type)
                     }
                 )
             }
