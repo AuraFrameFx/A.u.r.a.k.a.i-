@@ -54,17 +54,40 @@ interface BootloaderManager {
 @Singleton
 class BootloaderManagerImpl @Inject constructor() : BootloaderManager {
     override fun checkBootloaderAccess(): Boolean {
-        // ⚠️ NOT IMPLEMENTED: Always returns false for safety
-        // TODO: Check for fastboot binary and ADB access
-        // TODO: Verify device supports bootloader commands
-        return false
+        return try {
+            // Check if we can read bootloader-related system properties
+            // This indicates the device exposes bootloader information
+            val flashLocked = System.getProperty("ro.boot.flash.locked")
+            val oemUnlock = System.getProperty("ro.oem_unlock_supported")
+
+            // If either property exists, bootloader access is available
+            flashLocked != null || oemUnlock != null
+        } catch (e: Exception) {
+            // If we can't read properties, no bootloader access
+            false
+        }
     }
 
     override fun isBootloaderUnlocked(): Boolean {
-        // ⚠️ NOT IMPLEMENTED: Always returns false for safety
-        // TODO: Execute: adb shell getprop ro.boot.flash.locked
-        // TODO: Parse response: "1" = locked, "0" = unlocked
-        return false
+        return try {
+            // Read the bootloader lock status from system property
+            // "0" = unlocked, "1" = locked, null = unknown
+            val flashLocked = System.getProperty("ro.boot.flash.locked")
+
+            when (flashLocked) {
+                "0" -> true  // Bootloader is unlocked
+                "1" -> false // Bootloader is locked
+                else -> {
+                    // Property doesn't exist or has unexpected value
+                    // Check alternative property as fallback
+                    val verified = System.getProperty("ro.boot.verifiedbootstate")
+                    verified == "orange" // Orange state indicates unlocked bootloader
+                }
+            }
+        } catch (e: Exception) {
+            // Default to false (locked) if we can't determine status
+            false
+        }
     }
 
     override suspend fun unlockBootloader(): Result<Unit> {
