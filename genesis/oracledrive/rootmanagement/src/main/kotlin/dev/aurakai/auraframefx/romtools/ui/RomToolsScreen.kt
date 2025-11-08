@@ -28,8 +28,11 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,6 +42,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -71,6 +77,9 @@ fun RomToolsScreen(
     val operationProgress by romToolsManager.operationProgress.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
 
+    // Backdrop enabled state (persists during session)
+    var backdropEnabled by remember { mutableStateOf(true) }
+
     // File pickers for ROM and backup selection
     val romPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
@@ -99,7 +108,7 @@ fun RomToolsScreen(
         // Mega Man-style animated backdrop (behind everything)
         MegaManBackdropRenderer(
             operationProgress = operationProgress,
-            enabled = true  // TODO: Make this a user setting
+            enabled = backdropEnabled
         )
 
         // Main UI column (foreground) - semi-transparent to show backdrop
@@ -110,18 +119,28 @@ fun RomToolsScreen(
         ) {
             // Top App Bar
             TopAppBar(
-            title = {
-                Text(
-                    text = "ROM Tools",
-                    color = Color(0xFFFF6B35),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                title = {
+                    Text(
+                        text = "ROM Tools",
+                        color = Color(0xFFFF6B35),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                },
+                actions = {
+                    // Backdrop toggle button
+                    IconButton(onClick = { backdropEnabled = !backdropEnabled }) {
+                        Icon(
+                            imageVector = if (backdropEnabled) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                            contentDescription = if (backdropEnabled) "Hide Mega Man backdrop" else "Show Mega Man backdrop",
+                            tint = Color(0xFFFF6B35)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Black.copy(alpha = 0.8f)
                 )
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Black.copy(alpha = 0.8f)
             )
-        )
 
         // Content area
         if (!romToolsState.isInitialized) {
