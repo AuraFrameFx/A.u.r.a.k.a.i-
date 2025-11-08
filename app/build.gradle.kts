@@ -12,18 +12,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
     id("genesis.android.application")
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.gms.google-services")
-
-
-
 }
-    android {
-        namespace = "dev.aurakai.auraframefx"
-        ndkVersion = libs.versions.ndk.get()
+
+android {
+    namespace = "dev.aurakai.auraframefx"
+    ndkVersion = libs.versions.ndk.get()
 
         defaultConfig {
             applicationId = "dev.aurakai.auraframefx"
