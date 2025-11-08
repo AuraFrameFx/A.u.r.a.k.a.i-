@@ -20,6 +20,12 @@ android {
         versionCode = 1
         versionName = "0.1.0"
 
+        // Genesis Protocol: Gemini 2.0 Flash API Key
+        // Add to local.properties: GEMINI_API_KEY=your_key_here
+        // Get key from: https://aistudio.google.com/app/apikey
+        val geminiApiKey = project.findProperty("GEMINI_API_KEY")?.toString() ?: ""
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+
         externalNativeBuild {
             cmake {
                 cppFlags += "-std=c++20"
@@ -35,6 +41,11 @@ android {
         baseline = file("lint-baseline.xml")
         abortOnError = true
         checkReleaseBuilds = false
+    }
+
+    buildFeatures {
+        buildConfig = true
+        compose = true
     }
 
     externalNativeBuild {
@@ -107,6 +118,9 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)
+
+// AI & ML
+    implementation(libs.generativeai)
 
 // Kotlin + utils
     implementation(libs.kotlinx.coroutines.core)
