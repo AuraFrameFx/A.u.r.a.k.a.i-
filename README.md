@@ -1,4 +1,4 @@
-# 📚 AuraKai Module Documentation
+
 
 ## 🌟 Welcome to the Future of Android Intelligence
 
