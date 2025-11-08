@@ -486,7 +486,36 @@ class CryptoManagerTest {
 
         val data = "suspend variant test payload".encodeToByteArray()
 
+        // Call suspend encrypt method
+        val (ciphertext, iv) = crypto.encryptSuspend(data, key)
+
+        // Decrypt and verify
         val roundTrip = crypto.decrypt(ciphertext, key, iv)
         assertContentEquals(data, roundTrip)
+
+        // Verify GCM tag adds 16 bytes
+        assertEquals(
+            data.size + 16,
+            ciphertext.size,
+            "GCM tag (16 bytes) should increase ciphertext length"
+        )
+    }
+
+    @Test
+    fun `suspend decrypt handles suspend encrypted data correctly`() = runTest {
+        val a = generateEcKeyPairP256()
+        val b = generateEcKeyPairP256()
+        val shared = crypto.performKeyAgreement(a.private, b.public)
+        val key = deriveAesKey(shared)
+
+        val data = "bidirectional suspend test".encodeToByteArray()
+
+        // Encrypt with suspend variant
+        val (ciphertext, iv) = crypto.encryptSuspend(data, key)
+
+        // Decrypt with suspend variant
+        val decrypted = crypto.decryptSuspend(ciphertext, key, iv)
+
+        assertContentEquals(data, decrypted, "Suspend decrypt must handle suspend encrypted data")
     }
 }
