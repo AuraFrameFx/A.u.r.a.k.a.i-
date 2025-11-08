@@ -1,53 +1,38 @@
 plugins {
-    `kotlin-dsl`
+    `kotlin-dsl`        // applies java-gradle-plugin
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
+repositories {
+    google()
+    mavenCentral()
 }
 
 dependencies {
-    // Plugin dependencies for convention plugins
-    // These allow the convention plugins to apply Android, Kotlin, Hilt, and KSP plugins
-    implementation(libs.gradle.plugin)
-    implementation(libs.kotlin.gradle.plugin)
-    implementation(libs.hilt.gradle.plugin)
-    implementation(libs.ksp.gradle.plugin)
+    // IMPORTANT: build-logic cannot use version catalog (libs.*) - builds BEFORE catalog available!
+    // Use hardcoded versions matching settings.gradle.kts plugin declarations
+    implementation("com.android.tools.build:gradle:9.0.0-alpha13")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0-Beta2")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
+    implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.1")
+    implementation("com.google.gms:google-services:4.4.4")
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Precompiled Script Plugins
+// Genesis Convention Plugins Registration
 // ═══════════════════════════════════════════════════════════════════════════
-//
-// All convention plugins are now precompiled script plugins (.gradle.kts files).
-// They are automatically registered by Gradle - no manual registration needed!
-//
-// The file name becomes the plugin ID:
-//   genesis.android.application.gradle.kts → id("genesis.android.application")
-//
-// Available Plugins:
-//
-//   FOUNDATIONAL:
-//   • genesis.android.base        - Base Android configuration (SDK, Kotlin, deps)
-//
-//   APPLICATION & LIBRARY:
-//   • genesis.android.application - For the :app module (includes Hilt, Compose, Services)
-//   • genesis.android.library     - For Android library modules
-//   • genesis.kotlin.jvm          - For pure Kotlin JVM modules (no Android)
-//
-//   COMPOSABLE (mix and match):
-//   • genesis.android.hilt        - Hilt dependency injection
-//   • genesis.android.compose     - Jetpack Compose UI
-//   • genesis.android.room        - Room Database
-//   • genesis.android.yukihook    - YukiHook/Xposed framework
-//
-// Example Usage:
-//   plugins {
-//       id("genesis.android.library")  // Base library
-//       id("genesis.android.compose")  // Add Compose UI
-//       id("genesis.android.hilt")     // Add Hilt DI
-//   }
-//
-// ═══════════════════════════════════════════════════════════════════════════
+gradlePlugin {
+    plugins {
+        register("com.android.base") {
+            id = "genesis.android.base"
+            implementationClass = "plugins.GenesisBasePlugin"
+        }
+        register("com.android.library") {
+            id = "genesis.android.library"
+            implementationClass = "plugins.GenesisLibraryPlugin"
+        }
+        register("com.android.application") {
+            id = "genesis.android.application"
+            implementationClass = "plugins.GenesisApplicationPlugin"
+        }
+    }
+}

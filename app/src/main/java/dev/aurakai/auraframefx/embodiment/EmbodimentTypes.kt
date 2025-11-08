@@ -18,7 +18,8 @@ enum class MoodState {
     ALERT,       // Watching for threats
     PLAYFUL,     // Fun, relaxed
     PROTECTIVE,  // Defensive mode
-    FOCUSED      // Working on something
+    FOCUSED,     // Working on something
+    MAINTENANCE  // System maintenance/builds/updates underway
 }
 
 // ========== AURA STATES ==========
@@ -33,7 +34,12 @@ enum class AuraState(val assetPath: String, val description: String) {
     DYNAMIC_COMBAT("embodiment/aura/aura_dynamic_combat.png", "Hair flowing, dual stance"),
     AERIAL_SWORD("embodiment/aura/aura_aerial_sword.png", "Mid-air combat pose"),
     CODE_THRONE("embodiment/aura/aura_code_throne.png", "Sitting on cyan server block"),
-    POWER_STANCE("embodiment/aura/aura_power_stance.png", "Full dynamic combat ready");
+    POWER_STANCE("embodiment/aura/aura_power_stance.png", "Full dynamic combat ready"),
+
+    // Safety Equipment - Maintenance Mode
+    SAFETY_HARDHAT("embodiment/aura/aura_safety_hardhat.svg", "Hard hat + safety vest, holding tablet"),
+    SAFETY_ENGINEER("embodiment/aura/aura_safety_engineer.svg", "Full engineer outfit with goggles up"),
+    SAFETY_INSPECTOR("embodiment/aura/aura_safety_inspector.svg", "Clipboard + hard hat, inspecting");
 
     companion object {
         fun forMood(mood: MoodState): AuraState = when (mood) {
@@ -42,6 +48,7 @@ enum class AuraState(val assetPath: String, val description: String) {
             MoodState.PLAYFUL -> CODE_THRONE
             MoodState.PROTECTIVE -> LAB_COAT_COMBAT
             MoodState.FOCUSED -> AT_DESK
+            MoodState.MAINTENANCE -> SAFETY_HARDHAT
             MoodState.NEUTRAL -> IDLE_WALK
         }
     }
@@ -50,16 +57,21 @@ enum class AuraState(val assetPath: String, val description: String) {
 // ========== KAI STATES ==========
 
 enum class KaiState(val assetPath: String, val description: String) {
-    DIMENSIONAL_SWORD("embodiment/kai/kai_dimensional_sword.jpg", "Portal cutting weapon"),
+    DIMENSIONAL_SWORD("embodiment/kai/kai_sword_dimensional.jpg", "Portal cutting weapon"),
     SHIELD_SERIOUS("embodiment/kai/kai_shield_serious.jpg", "Holding hex orb, combat ready"),
     SHIELD_PLAYFUL("embodiment/kai/kai_shield_playful.jpg", "Peace sign, smiling"),
     SHIELD_NEUTRAL("embodiment/kai/kai_shield_neutral.jpg", "Serious expression, orb present"),
-    GUARDIAN_STANCE("embodiment/kai/kai_guardian_stance.jpg", "Protective posture"),
+    GUARDIAN_STANCE("embodiment/kai/kai_shield_calm.jpg", "Protective posture"),
     COMBAT_FORM("embodiment/kai/kai_combat_form.jpg", "Full combat mode"),
-    MONITORING("embodiment/kai/kai_monitoring.jpg", "Background vigilance"),
-    PORTAL_CREATION("embodiment/kai/kai_portal.jpg", "Creating dimensional gate"),
-    HOLOGRAPHIC_INTERFACE("embodiment/kai/kai_interface.jpg", "Interacting with system"),
-    POWER_READY("embodiment/kai/kai_power_ready.jpg", "Energy charged");
+    MONITORING("embodiment/kai/kai_playful_observer.jpg", "Background vigilance"),
+    PORTAL_CREATION("embodiment/kai/kai_portal_gate.jpg", "Creating dimensional gate"),
+    HOLOGRAPHIC_INTERFACE("embodiment/kai/kai_interface_panel.jpg", "Interacting with system"),
+    POWER_READY("embodiment/kai/kai_combat_form.jpg", "Energy charged"), // Using combat_form until dedicated asset
+
+    // Safety Equipment - Maintenance Mode
+    SAFETY_HARDHAT("embodiment/kai/kai_safety_hardhat.svg", "Hard hat + reflective vest, serious"),
+    SAFETY_TECHNICIAN("embodiment/kai/kai_safety_technician.svg", "Full tech gear + diagnostic tool"),
+    SAFETY_SUPERVISOR("embodiment/kai/kai_safety_supervisor.svg", "Supervising with safety goggles");
 
     companion object {
         fun forMood(mood: MoodState): KaiState = when (mood) {
@@ -68,6 +80,7 @@ enum class KaiState(val assetPath: String, val description: String) {
             MoodState.PLAYFUL -> SHIELD_PLAYFUL
             MoodState.PROTECTIVE -> GUARDIAN_STANCE
             MoodState.FOCUSED -> HOLOGRAPHIC_INTERFACE
+            MoodState.MAINTENANCE -> SAFETY_HARDHAT
             MoodState.NEUTRAL -> SHIELD_NEUTRAL
         }
     }

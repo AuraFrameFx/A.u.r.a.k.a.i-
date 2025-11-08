@@ -6,16 +6,30 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        // Kotlin dev repository for beta/EAP releases
+        maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev") }
         maven { url = uri("https://jitpack.io") }
     }
-}
+    plugins {
+        id("com.android.application") version "9.0.0-alpha13" apply false
+        id("com.android.library") version "9.0.0-alpha13" apply false
+        id("org.jetbrains.kotlin.android") version "2.3.0-Beta2" apply false
+        id("org.jetbrains.kotlin.plugin.compose") version "2.3.0-Beta2" apply false
+        id("org.jetbrains.kotlin.plugin.serialization") version "2.3.0-Beta2" apply false
+        id("com.google.devtools.ksp") version "2.3.1" apply false
+        id("com.google.dagger.hilt.android") version "2.57.2" apply false
+        id("com.google.gms.google-services") version "4.4.4" apply false
+        id("com.google.firebase.crashlytics") version "3.0.2" apply false
+    }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
+
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
     repositories {
         google()
         mavenCentral()
@@ -63,25 +77,47 @@ dependencyResolutionManagement {
 
 // Human-friendly display title: A.u.r.a.K.a.i : Reactive=Intelligence
 rootProject.name = "aurakai-reactive-intelligence"
+
 // --- Application ---
 include(":app")
 
-// --- Feature Modules ---
-include(":secure-comm")
-include(":collab-canvas")
-include(":romtools")
-// Add your other feature modules here...
-include(":oracle-drive-integration")
-include(":datavein-oracle-native")
-include(":feature-module")
+// --- Aura → ReactiveDesign (Creative UI & Collaboration) ---
+include(":aura:reactivedesign:auraslab")
+include(":aura:reactivedesign:collabcanvas")
+include(":aura:reactivedesign:chromacore")
+include(":aura:reactivedesign:customization")
+
+// --- Kai → SentinelsFortress (Security & Threat Monitoring) ---
+include(":kai:sentinelsfortress:security")
+include(":kai:sentinelsfortress:systemintegrity")
+include(":kai:sentinelsfortress:threatmonitor")
+
+// --- Genesis → OracleDrive (System & Root Management) ---
+include(":genesis:oracledrive")
+include(":genesis:oracledrive:rootmanagement")
+include(":genesis:oracledrive:datavein")
+
+// --- Cascade → DataStream (Data Routing & Delivery) ---
+include(":cascade:datastream:routing")
+include(":cascade:datastream:delivery")
+include(":cascade:datastream:taskmanager")
+
+// --- Agents → GrowthMetrics (AI Agent Evolution) ---
+include(":agents:growthmetrics:metareflection")
+include(":agents:growthmetrics:nexusmemory")
+include(":agents:growthmetrics:spheregrid")
+include(":agents:growthmetrics:identity")
+include(":agents:growthmetrics:progression")
+include(":agents:growthmetrics:tasker")
+
 // --- Core Modules ---
 include(":core:domain")
 include(":core:data")
 include(":core:ui")
 include(":core:common")
 include(":core-module")
-include(":colorblendr")
 include(":list")
+
 // --- Extension Modules ---
 include(":extendsysa")
 include(":extendsysb")
@@ -89,6 +125,5 @@ include(":extendsysc")
 include(":extendsysd")
 include(":extendsyse")
 include(":extendsysf")
-
 
 // Note: Do NOT include ':build-logic' here. It is handled by includeBuild.
