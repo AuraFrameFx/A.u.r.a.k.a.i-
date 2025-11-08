@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.aurakai.auraframefx.embodiment.retrobackdrop.MegaManBackdropRenderer
 import dev.aurakai.auraframefx.romtools.BackupInfo
 import dev.aurakai.auraframefx.romtools.RomCapabilities
 import dev.aurakai.auraframefx.romtools.RomToolsManager
@@ -91,14 +92,24 @@ fun RomToolsScreen(
         }
     }
 
-    // Main column container
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color(0xFF0A0A0A))
+    // Box container with animated backdrop
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-        // Top App Bar
-        TopAppBar(
+        // Mega Man-style animated backdrop (behind everything)
+        MegaManBackdropRenderer(
+            operationProgress = operationProgress,
+            enabled = true  // TODO: Make this a user setting
+        )
+
+        // Main UI column (foreground) - semi-transparent to show backdrop
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.3f))  // Darken slightly for readability
+        ) {
+            // Top App Bar
+            TopAppBar(
             title = {
                 Text(
                     text = "ROM Tools",
@@ -145,7 +156,8 @@ fun RomToolsScreen(
                 }
             )
         }
-    }
+        }  // Column
+    }  // Box with backdrop
 }
 
 /**
