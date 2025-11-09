@@ -5,13 +5,13 @@ plugins {
 // Configure Kotlin compilation to match Java toolchain
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
     }
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(24))
     }
 }
 
@@ -33,16 +33,13 @@ dependencies {
     // Use hardcoded versions matching settings.gradle.kts plugin declarations
     implementation("com.android.tools.build:gradle:9.0.0-alpha14")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0-Beta2")
+    implementation("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.3.0-Beta2")
+    implementation("org.jetbrains.kotlin:kotlin-serialization:2.3.0-Beta2")
     implementation("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
     implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.2")
     implementation("com.google.gms:google-services:4.4.4")
 }
 
-
-
-
-    // Kotlin Serialization plugin is bundled in kotlin-gradle-plugin, but we need to ensure it's accessible
-    // The serialization plugin is applied via kotlin-gradle-plugin, no separate dependency needed
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Genesis Convention Plugins Registration
