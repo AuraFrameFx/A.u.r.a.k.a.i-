@@ -56,10 +56,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import dev.aurakai.auraframefx.embodiment.retrobackdrop.BackdropState
+import dev.aurakai.auraframefx.embodiment.retrobackdrop.CardExplosionEffect
 import dev.aurakai.auraframefx.embodiment.retrobackdrop.MegaManBackdropRenderer
 import dev.aurakai.auraframefx.romtools.BackupInfo
 import dev.aurakai.auraframefx.romtools.RomCapabilities
 import dev.aurakai.auraframefx.romtools.RomToolsManager
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -77,8 +86,13 @@ fun RomToolsScreen(
     val operationProgress by romToolsManager.operationProgress.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
 
-    // Backdrop enabled state (persists during session)
+    // Backdrop state management
     var backdropEnabled by remember { mutableStateOf(true) }
+    var backdropState by remember { mutableStateOf(BackdropState.STATIC) }
+    val explosionEffect = remember { CardExplosionEffect() }
+
+    // Track previous operation state to detect start
+    var wasOperationRunning by remember { mutableStateOf(false) }
 
     // File pickers for ROM and backup selection
     val romPicker = rememberLauncherForActivityResult(
@@ -101,15 +115,86 @@ fun RomToolsScreen(
         }
     }
 
+    // Detect operation start and trigger explosion
+    val isOperationRunning = operationProgress != null && operationProgress.progress < 100f
+    LaunchedEffect(isOperationRunning) {
+        if (isOperationRunning && !wasOperationRunning && backdropState == BackdropState.STATIC) {
+            // Operation just started - trigger explosion!
+            Timber.i("🎴 ROM operation started - triggering card explosion!")
+            backdropState = BackdropState.EXPLODING
+            explosionEffect.initializeFromImage(null, 800f, 800f)  // Fallback pixels
+            explosionEffect.trigger()
+        }
+        wasOperationRunning = isOperationRunning
+    }
+
+    // Update explosion effect
+    LaunchedEffect(backdropState) {
+        if (backdropState == BackdropState.EXPLODING) {
+            while (backdropState == BackdropState.EXPLODING) {
+                delay(16)  // ~60 FPS
+                val isComplete = explosionEffect.update(0.016f)
+                if (isComplete) {
+                    backdropState = BackdropState.ACTIVE
+                    Timber.i("✨ Transition complete - backdrop is now ACTIVE")
+                }
+            }
+        }
+    }
+
+    // Handle operation completion
+    LaunchedEffect(operationProgress) {
+        if (operationProgress != null && operationProgress.progress >= 100f && backdropState == BackdropState.ACTIVE) {
+            backdropState = BackdropState.COMPLETING
+            delay(500)  // Brief pause
+            backdropState = BackdropState.VICTORY
+            delay(2000)  // Victory pose
+            backdropState = BackdropState.STATIC
+            Timber.i("🏆 Operation complete - returning to STATIC state")
+        }
+    }
+
     // Box container with animated backdrop
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        // Mega Man-style animated backdrop (behind everything)
-        MegaManBackdropRenderer(
-            operationProgress = operationProgress,
-            enabled = backdropEnabled
-        )
+        // Backdrop rendering based on state
+        if (backdropEnabled) {
+            when (backdropState) {
+                BackdropState.STATIC -> {
+                    // Show static screenshot (card idle state)
+                    StaticBackdropImage()
+                }
+
+                BackdropState.EXPLODING -> {
+                    // Show pixel explosion transition
+                    Canvas(modifier = Modifier.fillMaxSize()) {
+                        // Dark background
+                        drawRect(color = Color(0xFF1A1A2E))
+                        // Explosion effect
+                        explosionEffect.draw(this)
+                    }
+                }
+
+                BackdropState.ACTIVE -> {
+                    // Full animated backdrop
+                    MegaManBackdropRenderer(
+                        operationProgress = operationProgress,
+                        enabled = true
+                    )
+                }
+
+                BackdropState.COMPLETING,
+                BackdropState.VICTORY -> {
+                    // Freeze frame with victory pose
+                    MegaManBackdropRenderer(
+                        operationProgress = operationProgress,
+                        enabled = true
+                    )
+                    // TODO: Add victory overlay
+                }
+            }
+        }
 
         // Main UI column (foreground) - semi-transparent to show backdrop
         Column(
@@ -857,3 +942,54 @@ private fun BackupCard(backup: BackupInfo) {
 // Example:
 // val backupDir = context.getExternalFilesDir("backups")
 // val backupPath = backupDir?.absolutePath ?: ""
+
+/**
+ * StaticBackdropImage - Shows the chutes & ladders stage as a static card
+ *
+ * Displays the reference screenshot when no operation is running.
+ * The "card" is dormant, waiting to be activated.
+ */
+@Composable
+private fun StaticBackdropImage(modifier: Modifier = Modifier) {
+    // Fallback: Colored backdrop with card hint
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                androidx.compose.ui.graphics.Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFF1A1A2E),
+                        Color(0xFF0F0F1E)
+                    )
+                )
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        // Visual hint that this is a "dormant card"
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = "🎴",
+                fontSize = 64.sp
+            )
+            Text(
+                text = "Agent Artifact Card",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = "Dormant",
+                color = Color(0xFF00FFFF).copy(alpha = 0.5f),
+                fontSize = 14.sp
+            )
+            Text(
+                text = "Start an operation to awaken",
+                color = Color.White.copy(alpha = 0.4f),
+                fontSize = 12.sp
+            )
+        }
+    }
+}
