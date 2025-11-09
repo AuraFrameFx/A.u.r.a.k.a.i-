@@ -49,6 +49,9 @@ from genesis_ethical_governor import EthicalGovernor
 from genesis_evolutionary_conduit import EvolutionaryConduit
 from genesis_profile import GENESIS_PROFILE
 
+# Configure logging
+logger = logging.getLogger(__name__)
+
 # ============================================================================
 # Configuration - Load from environment with sensible defaults
 # ============================================================================
