@@ -84,10 +84,14 @@ class GenesisApplicationPlugin : Plugin<Project> {
                 }
 
                 compileOptions {
-                    sourceCompatibility = JavaVersion.toVersion("25")
-                    targetCompatibility = JavaVersion.toVersion("25")
+                    sourceCompatibility = JavaVersion.VERSION_24
+                    targetCompatibility = JavaVersion.VERSION_25
 
                     isCoreLibraryDesugaringEnabled = true
+                }
+
+                kotlinOptions {
+                    jvmTarget = "25"
                 }
 
                 buildFeatures {

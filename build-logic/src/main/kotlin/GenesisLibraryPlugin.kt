@@ -32,13 +32,13 @@ class GenesisLibraryPlugin : Plugin<Project> {
                 }
 
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_1_8
-                    targetCompatibility = JavaVersion.VERSION_1_8
+                    sourceCompatibility = JavaVersion.VERSION_24
+                    targetCompatibility = JavaVersion.VERSION_25
+                    isCoreLibraryDesugaringEnabled = true
                 }
 
                 kotlinOptions {
-                    jvmTarget = "1.8"
-                }
+                    jvmTarget = "25"
                 }
 
                 buildFeatures {
