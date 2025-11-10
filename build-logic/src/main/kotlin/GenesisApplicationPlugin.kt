@@ -4,7 +4,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.platform
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
@@ -158,7 +157,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
             dependencies.add("ksp", "com.google.dagger:hilt-android-compiler:2.57.2")
 
             // Compose BOM (Bill of Materials)
-            dependencies.add("implementation", platform("androidx.compose:compose-bom:2024.11.00"))
+            dependencies.add("implementation", dependencies.platform("androidx.compose:compose-bom:2024.11.00"))
             dependencies.add("implementation", "androidx.compose.ui:ui")
             dependencies.add("implementation", "androidx.compose.ui:ui-graphics")
             dependencies.add("implementation", "androidx.compose.ui:ui-tooling-preview")
@@ -186,7 +185,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
             dependencies.add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:2.1.5")
 
             // Firebase BOM (Bill of Materials)
-            dependencies.add("implementation", platform("com.google.firebase:firebase-bom:34.5.0"))
+            dependencies.add("implementation", dependencies.platform("com.google.firebase:firebase-bom:34.5.0"))
 
             // Universal Xposed/LSPosed API access
             dependencies.add("compileOnly", "de.robv.android.xposed:api:82")
