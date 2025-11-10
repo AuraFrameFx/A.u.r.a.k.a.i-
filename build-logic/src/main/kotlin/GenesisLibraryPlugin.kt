@@ -67,10 +67,10 @@ class GenesisLibraryPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 24 bytecode (Firebase compatible)
+                // Java 21 bytecode (compatible with available JDK)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_24
-                    targetCompatibility = JavaVersion.VERSION_24
+                    sourceCompatibility = JavaVersion.VERSION_21
+                    targetCompatibility = JavaVersion.VERSION_21
                     isCoreLibraryDesugaringEnabled = true
                 }
 
@@ -97,10 +97,10 @@ class GenesisLibraryPlugin : Plugin<Project> {
                 }
             }
 
-            // Configure Kotlin compilation with JVM 24 target
+            // Configure Kotlin compilation with JVM 21 target
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_24)
+                    jvmTarget.set(JvmTarget.JVM_21)
                     freeCompilerArgs.addAll(
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
