@@ -56,8 +56,8 @@ class GenesisApplicationPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
+            // Note: kotlin-android plugin removed - AGP 9.0 has built-in Kotlin support
             pluginManager.apply("com.android.application")
-            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("com.google.dagger.hilt.android")
             pluginManager.apply("com.google.devtools.ksp")
@@ -103,9 +103,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
                     isCoreLibraryDesugaringEnabled = true
                 }
 
-                kotlinOptions {
-                    jvmTarget = "24"
-                }
+                // Note: kotlinOptions removed - using modern compilerOptions in tasks below
 
                 buildFeatures {
                     compose = true
