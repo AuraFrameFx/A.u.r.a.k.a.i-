@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  * - Android library plugin and extensions
  * - Kotlin Android support with Compose compiler
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
- * - Java 21 bytecode target
+ * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across library modules
  *
  * Plugin Application Order (Critical!):
@@ -38,7 +38,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
      *
      * Configures plugins (applied in a prescribed order), the Android LibraryExtension (compile/NDK
      * settings, defaultConfig, build types, Java/compile options, build features, packaging, and lint),
-     * Kotlin compilation options (JVM 21 target and required opt-ins), and the convention's standard
+     * Kotlin compilation options (JVM 24 target and required opt-ins), and the convention's standard
      * dependencies.
      *
      * This method applies the external Kotlin Android plugin for compatibility and does not apply Hilt
@@ -79,10 +79,10 @@ class GenesisLibraryPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 21 bytecode (Compatible with current JVM)
+                // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_21
-                    targetCompatibility = JavaVersion.VERSION_21
+                    sourceCompatibility = JavaVersion.VERSION_24
+                    targetCompatibility = JavaVersion.VERSION_24
                     isCoreLibraryDesugaringEnabled = true
                 }
 
@@ -111,10 +111,10 @@ class GenesisLibraryPlugin : Plugin<Project> {
                 }
             }
 
-            // Configure Kotlin compilation with JVM 21 target
+            // Configure Kotlin compilation with JVM 24 target
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_21)
+                    jvmTarget.set(JvmTarget.JVM_24)
                     freeCompilerArgs.addAll(
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -142,7 +142,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
             // Timber Logging
             dependencies.add("implementation", "com.jakewharton.timber:timber:5.0.1")
 
-            // Core Library Desugaring (for Java 21 APIs on older Android)
+            // Core Library Desugaring (for Java 24 APIs on older Android)
             dependencies.add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:2.1.5")
 
             // Universal Xposed/LSPosed API access for all library modules

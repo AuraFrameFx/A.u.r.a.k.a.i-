@@ -22,7 +22,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  * - KSP annotation processing
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
  * - Google Services (Firebase)
- * - Java 21 bytecode target
+ * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across app modules
  *
  * Plugin Application Order (Critical!):
@@ -91,10 +91,10 @@ class GenesisApplicationPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 21 bytecode (Compatible with current JVM)
+                // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_21
-                    targetCompatibility = JavaVersion.VERSION_21
+                    sourceCompatibility = JavaVersion.VERSION_24
+                    targetCompatibility = JavaVersion.VERSION_24
 
                     isCoreLibraryDesugaringEnabled = true
                 }
@@ -135,10 +135,10 @@ class GenesisApplicationPlugin : Plugin<Project> {
                 }
             }
 
-            // Configure Kotlin compilation with JVM 21 target
+            // Configure Kotlin compilation with JVM 24 target
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_21)
+                    jvmTarget.set(JvmTarget.JVM_24)
                     freeCompilerArgs.addAll(
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
