@@ -14,7 +14,7 @@ plugins {
     id("genesis.android.application")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.android")
+    // Note: kotlin-android removed - AGP 9.0 has built-in Kotlin support
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -50,7 +50,7 @@ android {
 
     lint {
         baseline = file("lint-baseline.xml")
-        abortOnError = false // Don't block builds on lint errors for now
+        abortOnError = true // Re-enabled: baseline suppresses known issues
         checkReleaseBuilds = false
     }
 

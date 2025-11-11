@@ -37,8 +37,8 @@ class GenesisLibraryPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
+            // Note: kotlin-android plugin removed - AGP 9.0 has built-in Kotlin support
             pluginManager.apply("com.android.library")
-            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("com.google.dagger.hilt.android")
             pluginManager.apply("com.google.devtools.ksp")
@@ -67,16 +67,14 @@ class GenesisLibraryPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 21 bytecode (compatible with available JDK)
+                // Java 24 bytecode (Firebase compatible, Kotlin max target)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_25
-                    targetCompatibility = JavaVersion.VERSION_25
+                    sourceCompatibility = JavaVersion.VERSION_24
+                    targetCompatibility = JavaVersion.VERSION_24
                     isCoreLibraryDesugaringEnabled = true
                 }
 
-                kotlinOptions {
-                    jvmTarget = "25"
-                }
+                // Note: kotlinOptions removed - using modern compilerOptions in tasks below
 
                 buildFeatures {
                     compose = true
@@ -101,10 +99,10 @@ class GenesisLibraryPlugin : Plugin<Project> {
                 }
             }
 
-            // Configure Kotlin compilation with JVM 21 target
+            // Configure Kotlin compilation with JVM 24 target (Kotlin 2.2.x/2.3.x maximum)
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_25)
+                    jvmTarget.set(JvmTarget.JVM_24)
                     freeCompilerArgs.addAll(
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
