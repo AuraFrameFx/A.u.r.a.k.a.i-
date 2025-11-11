@@ -11,9 +11,10 @@
 // NO NEED to declare plugins individually - GenesisApplicationPlugin handles everything!
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("genesis.android.application")
+    id("com.android.application")
+    id("com.google.dagger.hilt.android") version "2.57.2"
     id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
+
     // Note: kotlin-android removed - AGP 9.0 has built-in Kotlin support
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.gms.google-services")
