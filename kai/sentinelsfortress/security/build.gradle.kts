@@ -2,7 +2,7 @@
 // Secure Communication Module - Encrypted communication layer
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("genesis.android.library")
+    id("genesis.android.library.hilt")
 }
 
 android {

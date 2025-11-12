@@ -2,7 +2,7 @@
 // Collaborative Canvas Module - Real-time collaborative drawing/whiteboard
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("genesis.android.library")
+    id("genesis.android.library.hilt")
 }
 
 android {
