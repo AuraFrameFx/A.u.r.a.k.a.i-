@@ -22,7 +22,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  * - KSP annotation processing
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
  * - Google Services (Firebase)
- * - Java 25 runtime with Java 24 bytecode target (Firebase compatible)
+ * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across app modules
  *
  * Plugin Application Order (Critical!):
@@ -91,7 +91,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 24 bytecode (Firebase compatible, Kotlin 2.2.x/2.3.x maximum)
+                // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_24
                     targetCompatibility = JavaVersion.VERSION_24
@@ -135,7 +135,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
                 }
             }
 
-            // Configure Kotlin compilation with JVM 24 target (Kotlin 2.2.x/2.3.x maximum)
+            // Configure Kotlin compilation with JVM 24 target
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
                     jvmTarget.set(JvmTarget.JVM_24)

@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  * - Android library plugin and extensions
  * - Kotlin Android support with Compose compiler
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
- * - Java 24 bytecode target (Firebase compatible)
+ * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across library modules
  *
  * Plugin Application Order (Critical!):
@@ -79,7 +79,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 24 bytecode (Firebase compatible, Kotlin max target)
+                // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_24
                     targetCompatibility = JavaVersion.VERSION_24
@@ -111,7 +111,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
                 }
             }
 
-            // Configure Kotlin compilation with JVM 24 target (Kotlin 2.2.x/2.3.x maximum)
+            // Configure Kotlin compilation with JVM 24 target
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
                     jvmTarget.set(JvmTarget.JVM_24)

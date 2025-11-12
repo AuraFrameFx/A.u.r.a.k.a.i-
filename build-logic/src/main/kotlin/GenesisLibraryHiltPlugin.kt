@@ -71,7 +71,7 @@ class GenesisLibraryHiltPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 24 bytecode (Firebase compatible, Kotlin max target)
+                // Java 21 bytecode (Compatible with current JVM)
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_24
                     targetCompatibility = JavaVersion.VERSION_24
