@@ -3,23 +3,18 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // This single plugin applies (in correct order):
 // 1. com.android.application
-// 2. com.google.dagger.hilt.android (Dependency Injection)
-// 3. com.google.devtools.ksp (Annotation Processing)
-// 4. org.jetbrains.kotlin.plugin.compose (Compose Compiler)
-// 5. genesis.android.base (SDK config, universal dependencies)
+// 2. org.jetbrains.kotlin.android (external Kotlin for Hilt compatibility)
+// 3. org.jetbrains.kotlin.plugin.compose (Compose Compiler)
+// 4. com.google.dagger.hilt.android (Dependency Injection)
+// 5. com.google.devtools.ksp (Annotation Processing)
+// 6. org.jetbrains.kotlin.plugin.serialization
+// 7. com.google.gms.google-services (Firebase)
 //
 // NO NEED to declare plugins individually - GenesisApplicationPlugin handles everything!
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("com.android.application")
-    id("com.google.dagger.hilt.android") version "2.57.2"
-    id("com.google.devtools.ksp")
-
-    // Note: kotlin-android removed - AGP 9.0 has built-in Kotlin support
-    id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    // NOTE: Firebase Analytics is NOT a plugin - it's automatically included via Firebase BOM
+    id("genesis.android.application")  // All-in-one convention plugin
+    alias(libs.plugins.firebase.crashlytics)  // Firebase Crashlytics (not included in convention)
 }
 
 android {
