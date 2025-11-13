@@ -3,18 +3,16 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // GenesisApplicationPlugin automatically applies (in correct order):
 // 1. com.android.application
-// 2. org.jetbrains.kotlin.android (external plugin for Hilt compatibility)
-// 3. org.jetbrains.kotlin.plugin.compose (Compose Compiler)
-// 4. com.google.dagger.hilt.android (Dependency Injection)
-// 5. com.google.devtools.ksp (Annotation Processing)
-// 6. org.jetbrains.kotlin.plugin.serialization (JSON Serialization)
-// 7. com.google.gms.google-services (Firebase)
+// 2. com.google.dagger.hilt.android (Dependency Injection)
+// 3. com.google.devtools.ksp (Annotation Processing)
+// 4. org.jetbrains.kotlin.plugin.compose (Compose Compiler)
+// 5. genesis.android.base (SDK config, universal dependencies)
 //
 // NO NEED to redeclare these - GenesisApplicationPlugin handles them!
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
     id("com.android.application")
-    id("com.google.dagger.hilt.android")
+    id("com.google.dagger.hilt.android") version "2.57.2"
     id("com.google.devtools.ksp")
 
     // Note: kotlin-android removed - AGP 9.0 has built-in Kotlin support

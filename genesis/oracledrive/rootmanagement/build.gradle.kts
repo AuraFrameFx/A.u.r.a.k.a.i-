@@ -2,7 +2,7 @@
 // ROM Tools Module - System and ROM modification utilities
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("genesis.android.library.hilt")  // Includes Hilt, KSP, and all base features
+    id("genesis.android.library")
 }
 
 android {
@@ -27,7 +27,6 @@ dependencies {
     // AUTO-PROVIDED by genesis.android.library.hilt:
     // - androidx-core-ktx, appcompat, timber
     // - Hilt (android + compiler via KSP)
-    // - KSP annotation processing
     // - Coroutines (core + android)
     // - Compose enabled by default
     // - Java 24 bytecode target

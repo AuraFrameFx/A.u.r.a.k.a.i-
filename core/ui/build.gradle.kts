@@ -3,7 +3,6 @@
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
     id("genesis.android.library")
-    id("com.google.devtools.ksp")  // Required for YukiHook annotation processing
 }
 
 android {
@@ -12,14 +11,11 @@ android {
 
 dependencies {
     // ═══════════════════════════════════════════════════════════════════════
-    // AUTO-PROVIDED by genesis.android.library (base - NO Hilt):
-    // ✅ androidx-core-ktx, appcompat
-    // ✅ Timber, Coroutines (core + android)
-    // ✅ Serialization JSON
-    // ✅ Compose enabled by default
-    // ✅ Core library desugaring (Java 24 APIs)
-    // ✅ Xposed API (compileOnly) + EzXHelper
-    // ❌ NO Hilt (use genesis.android.library.hilt if DI needed)
+    // AUTO-PROVIDED by genesis.android.library:
+    // - androidx-core-ktx, appcompat
+    // - Hilt (android + compiler via KSP)
+    // - Timber, Coroutines
+    // - Compose enabled by default
     // ═══════════════════════════════════════════════════════════════════════
 
     // Expose core KTX as API (types leak to consumers)
