@@ -19,6 +19,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    alias(libs.plugins.kotlin.compose)
     // NOTE: Firebase Analytics is NOT a plugin - it's automatically included via Firebase BOM
 }
 
