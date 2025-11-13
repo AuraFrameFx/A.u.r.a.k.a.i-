@@ -2,7 +2,9 @@
 // Collaborative Canvas Module - Real-time collaborative drawing/whiteboard
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("genesis.android.library.hilt")  // Uses Hilt DI + YukiHook KSP
+    id("genesis.android.library")
+    alias(libs.plugins.ksp)  // Required for Hilt + Room code generation
+
 }
 
 android {

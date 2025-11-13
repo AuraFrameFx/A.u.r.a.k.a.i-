@@ -19,40 +19,39 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  * - Android library plugin and extensions
  * - Kotlin Android support with Compose compiler
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
- * - Java 24 bytecode target (Firebase compatible)
+ * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across library modules
  *
  * Plugin Application Order (Critical!):
- * 1. com.android.library
- * 2. org.jetbrains.kotlin.android
- * 3. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
- * 4. org.jetbrains.kotlin.plugin.serialization
+ * 1. com.android.library (provides built-in Kotlin since AGP 9.0)
+ * 2. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
+ * 3. org.jetbrains.kotlin.plugin.serialization
  *
- * Note: Hilt and KSP are NOT applied in library modules per AGP 9.0 workaround.
- * Individual library modules that need Hilt should apply it explicitly
+ * Note: Kotlin is built into AGP 9.0.0-alpha14+ (android.builtInKotlin=true)
+ * Note: Hilt and KSP are NOT applied - use genesis.android.library.hilt for DI
  *
  * @since Genesis Protocol 2.0 (AGP 9.0.0-alpha14 Compatible)
  */
 class GenesisLibraryPlugin : Plugin<Project> {
     /**
-     * Configures the given Gradle project as an Android library module with the convention's
-     * defaults: applies required plugins in the prescribed order, configures the Android
-     * LibraryExtension (SDK/NDK, defaultConfig, build types, Java/compile options, build features,
-     * packaging and lint), sets Kotlin compilation options (JVM 24 and opt-ins), and adds the
+     * Configures the given Gradle project as an Android library module using the convention's defaults.
+     *
+     * Applies the Android library, Compose, and Kotlin serialization plugins, configures the
+     * Android LibraryExtension (compile/NDK settings, defaultConfig, build types, Java/compile options,
+     * build features, packaging, and lint), sets Kotlin JVM compilation options, and adds the
      * convention's standard dependencies.
      *
-     * The plugin application order is important for compatibility (including Hilt); this method
-     * applies the external Kotlin Android plugin rather than the built-in Kotlin integration.
+     * This function does not apply Hilt or KSP; library modules should opt into DI tooling explicitly
+     * (for example via the dedicated genesis.android.library.hilt convention).
      *
-     * @param project The Gradle project to configure.
+     * @param project The Gradle project to configure as an Android library module.
      */
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
-            // Note: Using EXTERNAL kotlin-android plugin (android.builtInKotlin=false for Hilt compatibility)
-            // Note: Hilt NOT applied here - library modules apply it explicitly if needed per AGP 9.0 workaround
+            // Note: Kotlin is built into AGP 9.0.0-alpha14+ (android.builtInKotlin=true)
+            // Note: Hilt NOT applied - use genesis.android.library.hilt for DI
             pluginManager.apply("com.android.library")
-            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
 
@@ -79,7 +78,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 24 bytecode (Firebase compatible, Kotlin max target)
+                // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_24
                     targetCompatibility = JavaVersion.VERSION_24
@@ -158,4 +157,3 @@ class GenesisLibraryPlugin : Plugin<Project> {
         }
     }
 }
-

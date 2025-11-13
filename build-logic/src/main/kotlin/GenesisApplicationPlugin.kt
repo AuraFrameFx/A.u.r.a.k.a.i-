@@ -23,38 +23,35 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
  * - KSP annotation processing
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
  * - Google Services (Firebase)
- * - Java 25 runtime with Java 24 bytecode target (Firebase compatible)
+ * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across app modules
  *
  * Plugin Application Order (Critical!):
- * 1. com.android.application
- * 2. org.jetbrains.kotlin.android
- * 3. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
- * 4. com.google.dagger.hilt.android
- * 5. com.google.devtools.ksp
- * 6. org.jetbrains.kotlin.plugin.serialization
- * 7. com.google.gms.google-services
+ * 1. com.android.application (provides built-in Kotlin since AGP 9.0)
+ * 2. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
+ * 3. com.google.dagger.hilt.android
+ * 4. com.google.devtools.ksp
+ * 5. org.jetbrains.kotlin.plugin.serialization
+ * 6. com.google.gms.google-services
  *
  * @since Genesis Protocol 2.0 (AGP 9.0.0-alpha14 Compatible)
  */
 class GenesisApplicationPlugin : Plugin<Project> {
     /**
-     * Configure the given Gradle Project as an Android application module using Genesis conventions.
+     * Configure a Gradle Project as an Android application module using Genesis conventions.
      *
-     * Applies required plugins, configures the Android ApplicationExtension (compile SDK, NDK,
-     * defaultConfig including applicationId/min/target SDK/versioning, build types, Java compatibility,
-     * Compose and build features, packaging and lint settings, and optional CMake external native build),
-     * adjusts Kotlin JVM compilation options (JVM target and compiler opt-ins), and adds the standard
-     * set of project dependencies used by Genesis application modules.
+     * Applies required plugins; configures the Android ApplicationExtension (compile and target SDKs,
+     * NDK, defaultConfig, build types, Java compatibility, Compose and other build features, packaging,
+     * lint, and optional CMake external native build); adjusts Kotlin compiler options; and adds the
+     * standard set of dependencies used by Genesis application modules.
      *
      * @param project The Gradle Project to configure as an Android application module.
      */
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
-            // Note: Using EXTERNAL kotlin-android plugin (android.builtInKotlin=false for Hilt compatibility)
+            // Note: Kotlin is built into AGP 9.0.0-alpha14+ (android.builtInKotlin=true)
             pluginManager.apply("com.android.application")
-            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("com.google.dagger.hilt.android")
             pluginManager.apply("com.google.devtools.ksp")
@@ -92,7 +89,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
                     }
                 }
 
-                // Java 24 bytecode (Firebase compatible, Kotlin 2.2.x/2.3.x maximum)
+                // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_24
                     targetCompatibility = JavaVersion.VERSION_24

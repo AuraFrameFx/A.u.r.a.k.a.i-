@@ -2,16 +2,35 @@ plugins {
     `kotlin-dsl`        // applies java-gradle-plugin
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// CRITICAL: Exclude ALL Android AAR dependencies from build-logic
+// ═══════════════════════════════════════════════════════════════════════════
+// build-logic is JVM-only and cannot consume Android AAR (Android Archive) files.
+// hilt-android-gradle-plugin incorrectly depends on hilt-android (runtime library),
+// which transitively pulls in AndroidX AAR dependencies.
+// Force exclude these from ALL configurations to prevent variant resolution errors.
+
+configurations.all {
+    exclude(group = "com.google.dagger", module = "hilt-android")
+    exclude(group = "androidx.activity")
+    exclude(group = "androidx.fragment")
+    exclude(group = "androidx.lifecycle")
+    exclude(group = "androidx.savedstate")
+    exclude(group = "androidx.annotation")
+    exclude(group = "androidx.core")
+}
+
 // Configure Kotlin compilation to match Java toolchain
+// MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 24)
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
     }
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(24))
     }
 }
 
@@ -37,14 +56,23 @@ dependencies {
     // Use hardcoded versions matching settings.gradle.kts plugin declarations
     implementation("com.android.tools.build:gradle:9.0.0-alpha14")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0-Beta2")
+
     implementation("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.3.0-Beta2")
     implementation("org.jetbrains.kotlin:kotlin-serialization:2.3.0-Beta2")
+
+    // Hilt Gradle Plugin (Android AAR dependencies excluded globally via configurations.all)
     implementation("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
+
     implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.2")
     implementation("com.google.gms:google-services:4.4.4")
 }
 
-
+// After applying plugins
+dependencies {
+    add("implementation", "com.google.dagger:hilt-android:2.57.2")
+    add("implementation", "com.google.dagger:hilt-android-compiler:2.57.2")
+    add("implementation", "org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0-Beta2")
+}
 // ═══════════════════════════════════════════════════════════════════════════
 // Genesis Convention Plugins Registration
 // ═══════════════════════════════════════════════════════════════════════════

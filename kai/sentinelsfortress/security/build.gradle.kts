@@ -2,7 +2,9 @@
 // Secure Communication Module - Encrypted communication layer
 // ═══════════════════════════════════════════════════════════════════════════
 plugins {
-    id("genesis.android.library.hilt")  // Uses Hilt DI + YukiHook KSP
+    id("genesis.android.library")
+    alias(libs.plugins.ksp)  // Required for Hilt + Room code generation
+
 }
 
 android {
