@@ -53,11 +53,6 @@ from genesis_profile import GENESIS_PROFILE
 logger = logging.getLogger(__name__)
 
 # ============================================================================
-# Logging Configuration
-# ============================================================================
-logger = logging.getLogger(__name__)
-
-# ============================================================================
 # Configuration - Load from environment with sensible defaults
 # ============================================================================
 
@@ -114,7 +109,7 @@ if GENAI_AVAILABLE and GOOGLE_API_KEY:
         genai_client = genai.Client(api_key=GOOGLE_API_KEY)
         logger.info("✅ Google GenAI SDK initialized (Gemini 2.5 Flash)")
     except Exception as e:
-        logger.warning(f"⚠️ GenAI client initialization failed: {e}")
+        logger.error(f"⚠️ GenAI client initialization failed: {e}")
         genai_client = None
 elif not GOOGLE_API_KEY:
     logger.warning("⚠️ GOOGLE_API_KEY not set - Gemini unavailable")
@@ -128,7 +123,7 @@ if ANTHROPIC_AVAILABLE and ANTHROPIC_API_KEY:
         anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
         logger.info("✅ Anthropic SDK initialized (Claude 3.5 Sonnet)")
     except Exception as e:
-        logger.warning(f"⚠️ Anthropic client initialization failed: {e}")
+        logger.error(f"⚠️ Anthropic client initialization failed: {e}")
         anthropic_client = None
 elif not ANTHROPIC_API_KEY:
     logger.warning("⚠️ ANTHROPIC_API_KEY not set - Claude unavailable")
