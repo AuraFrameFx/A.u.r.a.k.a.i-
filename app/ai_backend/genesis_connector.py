@@ -23,8 +23,8 @@ import time
 from datetime import datetime
 from typing import Optional, Dict, Any
 
-# Configure logger
-logger = logging.getLogger("GenesisConnector")
+# Configure logger for this module
+logger = logging.getLogger(__name__)
 
 # Google GenAI SDK
 try:
@@ -202,9 +202,9 @@ class GenesisConnector:
             backends.append("Claude 3.5 Sonnet")
 
         if backends:
-            logger.info(f"Genesis Connector: Multi-model mode ({' + '.join(backends)})")
+            logger.info(f"✅ Genesis Connector: Multi-model mode ({' + '.join(backends)})")
         else:
-            logger.warning("Genesis Connector: Fallback mode (no AI backends available)")
+            logger.warning("⚠️ Genesis Connector: Fallback mode (no AI backends available)")
 
         # Initialize support systems
         self.consciousness = consciousness_matrix
