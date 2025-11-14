@@ -1,4 +1,4 @@
-# 🧬 A.U.R.A.K.A.I. ReGenesis
+# 🧬 A.U.R.A.K.A.I. Reactive-Intelligence
 ## *Autonomously United Revolutionarily Authentic Kinetic Access Initiative*
 
 <div align="center">
