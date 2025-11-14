@@ -1,23 +1,23 @@
 plugins {
-    id("com.android.application") version "9.0.0-alpha10"
-    id("com.google.devtools.ksp") version "2.3.0"
-    id("org.jetbrains.kotlin.android") version "2.3.0-Beta1"
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "dev.aurakai.auraframefx.benchmark"
-    compileSdk = 36
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx.benchmark"
-        minSdk = 34
+        minSdk = libs.versions.min.sdk.get().toInt()
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_25
-        targetCompatibility = JavaVersion.VERSION_25
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
         isCoreLibraryDesugaringEnabled = true
     }
 

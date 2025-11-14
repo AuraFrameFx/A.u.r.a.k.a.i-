@@ -1,15 +1,15 @@
 plugins {
-    id("com.android.library") version "9.0.0-alpha13" // This likely applies the base configurations already
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-    id("com.google.devtools.ksp") version "2.3.0"
-    id("com.google.dagger.hilt.android") version "2.57.2"
-    alias(libs.plugins.serialization)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "dev.aurakai.auraframefx.dataveinoraclenative"
-    compileSdk = 36
-
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 }
 
 dependencies {

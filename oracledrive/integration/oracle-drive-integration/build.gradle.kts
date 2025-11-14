@@ -8,16 +8,18 @@
 // Remove this module if not implementing soon to reduce build time.
 plugins {
     id("com.android.library")
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "dev.aurakai.auraframefx.oracledriveintegration"
-    compileSdk = 36
-
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 }
+
 dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

@@ -1,11 +1,14 @@
 plugins {
-    id("com.android.library") version "9.0.0-alpha10"
-    id("com.google.devtools.ksp") version "2.3.0"
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.ksp)
 }
+
 android {
     namespace = "dev.aurakai.auraframefx.dataveinoraclenative"
-    compileSdk = 36
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 }
+
 dependencies {
     implementation("com.github.topjohnwu.libsu:core:5.0.4")
     implementation("com.github.topjohnwu.libsu:io:5.0.4")

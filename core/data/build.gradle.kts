@@ -1,14 +1,14 @@
 plugins {
     id("com.android.library")
-    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
+
 android {
     namespace = "dev.aurakai.auraframefx.core.data"
-    compileSdk = 36
+    compileSdk = libs.versions.compile.sdk.get().toInt()
 }
 dependencies {
     api(libs.androidx.core.ktx) // if APIs leak types
